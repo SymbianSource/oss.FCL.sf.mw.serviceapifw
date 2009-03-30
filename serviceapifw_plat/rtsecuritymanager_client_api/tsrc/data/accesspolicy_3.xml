@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE policy>
+<policy>
+		<!-- an alias groups a set of capabilities under one name -->
+		<alias name="UserDataGroup">
+				<info>This can contain info which can be displayed with capabilities while prompting</info>				
+				<capabilities>
+					<capability>ReadUserData</capability>
+					<capability>WriteUserData</capability>
+					<capability>Location</capability>
+					<capability>UserEnvironment</capability>
+				</capabilities>
+		</alias>
+		
+		<alias name="DeviceResourcesGroup">
+				<info>This can contain info which can be displayed with capabilities while prompting</info>				
+				<capabilities>
+					<capability>MultimediaDD</capability>
+					<capability>ReadDeviceData</capability>
+					<capability>WriteDeviceData</capability>
+					<capability>CommDD</capability>
+					<capability>SurroundingsDD</capability>
+					<capability>NetworkControl</capability>
+					<!--capability>SwEvent</capability-->
+				</capabilities>
+		</alias>
+		
+		<alias name="NetworkGroup">
+				<info>This can contain info which can be displayed with capabilities while prompting</info>				
+				<capabilities>
+					<capability>NetworkServices</capability>
+					<capability>LocalServices</capability>
+				</capabilities>
+		</alias>
+			
+					
+		<!-- specify a protection domain -->
+		<domain name="UnTrusted">				
+				<allow>
+						<capabilities>
+								<capability>SwEvent</capability>
+								 
+								
+						</capabilities>
+				</allow>
+				
+				<!-- user-grantable capabilities for this domain -->
+				<user>
+						<condition>oneshot</condition>
+						<condition>session</condition>
+						<condition>blanket</condition>
+						<defaultCondition>session</defaultCondition>
+						<capabilities>
+								<capability>NetworkGroup</capability>
+							    <capability>UserDataGroup</capability>
+								<capability>DeviceResourcesGroup</capability>
+								<!--capability>ReadUserData</capability>
+								<capability>WriteUserData</capability>
+								<capability>Location</capability-->					
+						</capabilities>
+				</user>
+		</domain>
+		
+			
+</Policy>

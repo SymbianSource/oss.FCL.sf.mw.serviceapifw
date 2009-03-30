@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<api id="632ce9a07247d9bc295ac3cbcf13fce5" dataversion="1.0">
+<name>liw_criteria_api</name>
+<description>Criteria API offers access to a criteria element, which contains command ID, MIME type etc. of data items.</description>
+<type>c++</type>
+<subsystem>languageinterworkingfw</subsystem>
+<libs><lib name="liwservicehandler.lib"/>
+</libs>
+<release category="domain" sinceversion=""/>
+<attributes>
+<htmldocprovided>yes</htmldocprovided>
+<adaptation>no</adaptation>
+</attributes>
+</api>

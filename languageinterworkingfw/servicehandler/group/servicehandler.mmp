@@ -1,0 +1,86 @@
+/*
+* Copyright (c) 2003-2005 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:       LIW project file.
+*
+*/
+
+
+
+
+
+
+
+#include "../inc/liwuids.hrh"
+#include <platform_paths.hrh>
+
+TARGET          liwServiceHandler.dll
+TARGETTYPE      DLL
+UID             0x1000008d KLiwServiceHandlerDLLUidValue
+
+
+VERSION 10.1
+paged
+
+CAPABILITY      CAP_GENERAL_DLL
+
+SOURCEPATH      ../src
+SOURCE          LiwCommon.cpp
+SOURCE          LiwServiceHandler.cpp
+SOURCE          LiwServiceHandlerImpl.cpp
+SOURCE          LiwMenu.cpp
+SOURCE          LiwBinding.cpp
+SOURCE          LiwMenuBinding.cpp
+SOURCE          LiwServiceIfBase.cpp
+SOURCE          LiwServiceIfMenu.cpp
+SOURCE          LiwGenericParam.cpp
+SOURCE          LiwVariant.cpp
+SOURCE          LiwEcomMonitor.cpp
+SOURCE          LiwTlsData.cpp
+SOURCE          LiwXmlHandler.cpp
+SOURCE          LiwServiceData.cpp
+
+USERINCLUDE     . 
+USERINCLUDE     ../inc
+
+// This is a SYSTEMINCLUDE macro containing the middleware
+// layer specific include directories
+MW_LAYER_SYSTEMINCLUDE
+
+#include <data_caging_paths.hrh>
+
+START RESOURCE ../data/liwServiceHandler.rss
+	HEADER    
+	TARGETPATH   RESOURCE_FILES_DIR  
+END
+
+LIBRARY         euser.lib
+LIBRARY         eikcoctl.lib
+LIBRARY         ecom.lib
+LIBRARY         cone.lib
+LIBRARY         bafl.lib 
+LIBRARY         efsrv.lib
+LIBRARY         estor.lib
+LIBRARY         eikcore.lib 
+LIBRARY			SenXML.lib
+LIBRARY	 	  	RTSecMgrClient.lib
+LIBRARY	 	  	inetprotutil.lib
+
+START WINS
+END
+
+START MARM
+END
+
+
+//  End of File

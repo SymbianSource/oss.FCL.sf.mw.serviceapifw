@@ -1,0 +1,418 @@
+/*
+* Copyright (c) 2003-2005 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:       Declares common constants to be used in both resources and
+*                C++ code of consumers and providers.
+*
+*/
+
+
+
+
+
+
+
+#ifndef LIW_COMMON_HRH
+#define LIW_COMMON_HRH
+
+// DATA TYPES
+
+// CONSTANTS
+
+/**
+* Predefined service commands (UIDs).
+*/
+enum TLiwServiceCommands
+    {
+    /** Null value. */
+    KLiwCmdNone = 0,
+
+    /** String Based command */
+    KLiwCmdAsStr = 1,
+
+    /** Create new content. */
+    KLiwCmdNew = 0x101F864C,
+        
+    /** Edit existing content. */
+    KLiwCmdEdit = 0x101F864D,
+        
+    /** Select content. */
+    KLiwCmdSelect = 0x101F864E,
+    
+    /** View content. */
+    KLiwCmdView = 0x101F864F,
+
+    /** Create call. */
+    KLiwCmdCall = 0x101F86B0,
+
+    /** Send content. */
+    KLiwCmdSend = 0x101F86B3,
+
+    /** Print content. */
+    KLiwCmdPrint = 0x101F8666,
+
+    /** Assign content. */
+    KLiwCmdAssign = 0x101F8716,
+
+    /** Share content. */
+    KLiwCmdShare = 0x101F871E,
+
+    /** Synchronize content. */
+    KLiwCmdSynchronize = 0x101F8724,
+
+    /** Synchronize selected. */
+    KLiwCmdSynchronizeSelected = 0x1020720C,
+
+    /** Search content. */
+    KLiwCmdSearch = 0x101F87DF,
+
+    /** Copy content. */
+    KLiwCmdCopy = 0x101F87DE,
+
+    /** Show print preview. */
+    KLiwCmdPrintPreview = 0x101FD656,
+    
+    /** Push to talk. */
+    KLiwCmdPoC = 0x101FD657,
+    
+    /** View content in online store. */
+    KLiwCmdViewOnline = 0x102072EA,
+    
+    /** Upload content. */
+    KLiwCmdUpload = 0x102072EB,
+    
+    /** Transfer a range of media files to a remote storage device. */
+    KLiwCmdXpressTransfer = 0x10207430,
+    
+    /** UPnP copy content. */
+    KLiwCmdUPnPCopy = 0x10207431,
+           
+    /** UPnP move content. */          
+    KLiwCmdUPnPMove = 0x10207432,
+
+    /** UPnP play content. */
+    KLiwCmdUPnPPlay = 0x10207433,
+
+    /** UPnP open content. */
+    KLiwCmdUPnPOpen = 0x10207434,
+    
+    /** UPnP enable external. */
+    KLiwCmdUPnPEnableExternal = 0x10207435,
+    
+    /** Show help content. */
+    KLiwCmdHelp = 0x10275075,
+    
+    /** Add or remove items from intent. (Should be used as a menu service command). */
+    KLiwCmdIntent = 0x10275114,
+    
+    /** Add items to intent. (Should be used as a base service command). */
+    KLiwCmdAddToIntent = 0x10275115,
+    
+    /** Remove items from intent. (Should be used as a base service command). */
+    KLiwCmdRemoveFromIntent = 0x10275116,
+    
+    /** Client can request that map should be displayed on screen. */ 
+    KLiwCmdMnShowMap = 0x10206904,
+    
+    /** Allows to start navigation to desired destination. */
+    KLiwCmdMnNavigateTo = 0x10206905,
+    
+    /** Starts reverse geocoding request: finding address for given coordinate. */
+    KLiwCmdMnAddrByCoord = 0x10206906,
+    
+    /** Starts geocoding request: finding coordinate by given address. */
+    KLiwCmdMnCoordByAddr = 0x10206907,    
+    
+    /** Allows client to request that user shall select a location from map. */
+    KLiwCmdMnSelectFromMap = 0x10206908,
+    
+    /** Send via Bluetooth. */
+    KLiwCmdSendViaBT = 0x10281894,   
+	
+    /** Send via Irda. */
+    KLiwCmdSendViaIR = 0x10281895,
+    
+    /** Enterprise telephony. */
+    KLiwCmdEnterpriseTel = 0x20001FC6,  
+
+    /** Rotate image etc. */
+    KLiwCmdRotate = 0x10281F96,
+    
+    /** Rotate device screen. */
+    KLiwCmdRotateScreen = 0x10281F97,
+    
+    /** Set call image. */
+    KLiwCmdCallImage = 0x1028245E,
+    
+    /** Give different objects to another device using Near Field Communications. */
+    KLiwCmdNFCGive = 0x1028245F,
+    
+    /** SettingWizard Email view activation. */
+    KLiwCmdSettingWizardEmailView = 0x10281C95,
+    
+    /** In-device search. */
+    KLiwCmdContentSearch = 0x10282844,
+    
+	/** A special service command enabling consumer to attach for all relevant 
+	LIW services for a certain object. */
+	KLiwCmdAnyCmdForObject = 0x102823F1,
+	
+	/** To support VoIP settings provisioning with plugins **/
+	KLiwCmdEasyVoIPProvisioning = 0x10283099,
+	
+	/** Assign Screensaver*/
+    KLiwCmdAssignScreenSaver = 0x1028309A,
+
+	/** Converged service plugin and UI extension plugin*/
+	KLiwCmdCSCServicePlugins = 0x1020E56F,
+	KLiwCmdCSCUiExtensionPlugins = 0x10282EF7 
+    };
+
+enum TLiwBufferType
+{
+	KLiwBufferNone = 0,
+	KLiwBufferBitmap = 1,
+	KLiwBufferFile = 2
+};
+
+
+// Service command strings. These strings are used in service provider's
+// opaque data field to specify what service command(s) the provider implements.
+
+#define KLiwCmdNoneStr                    "00000000"
+#define KLiwCmdAsStrStr               "00000001" 
+#define KLiwCmdNewStr                     "101F864C"
+#define KLiwCmdEditStr                    "101F864D"
+#define KLiwCmdSelectStr                  "101F864E"
+#define KLiwCmdViewStr                    "101F864F"
+#define KLiwCmdPrintStr                   "101F8666"
+#define KLiwCmdCallStr                    "101F86B0"
+#define KLiwCmdSendStr                    "101F86B3"
+#define KLiwCmdAssignStr                  "101F8716"
+#define KLiwCmdShareStr                   "101F871E"
+#define KLiwCmdSynchronizeStr             "101F8724"
+#define KLiwCmdSearchStr                  "101F87DF"
+#define KLiwCmdCopy                       "101F87DE"
+#define KLiwCmdPrintPreviewStr            "101FD656"
+#define KLiwCmdPoCStr                     "101FD657" 
+#define KLiwCmdSynchronizeSelectedStr     "1020720C"
+#define KLiwCmdViewOnlineStr              "102072EA" 
+#define KLiwCmdUploadStr                  "102072EB"
+#define KLiwCmdXpressTransferStr          "10207430"
+#define KLiwCmdUPnPCopyStr                "10207431"
+#define KLiwCmdUPnPMoveStr                "10207432"
+#define KLiwCmdUPnPPlayStr                "10207433"
+#define KLiwCmdUPnPOpenStr                "10207434"
+#define KLiwCmdUPnPEnableExternalStr      "10207435"
+#define KLiwCmdHelpStr                    "10275075"
+#define KLiwCmdIntentStr                  "10275114"
+#define KLiwCmdAddToIntentStr             "10275115"
+#define KLiwCmdRemoveFromIntentStr        "10275116"
+#define KLiwCmdMnShowMapStr               "10206904"
+#define KLiwCmdMnNavigateToStr            "10206905"
+#define KLiwCmdMnAddrByCoordStr           "10206906"
+#define KLiwCmdMnCoordByAddrStr           "10206907"
+#define KLiwCmdMnSelectFromMapStr         "10206908"
+#define KLiwCmdSendViaBTStr               "10281894"
+#define KLiwCmdSendViaIRStr               "10281895"
+#define KLiwCmdEnterpriseTelStr           "20001FC6"
+#define KLiwCmdRotateStr                  "10281F96"
+#define KLiwCmdRotateScreenStr            "10281F97"
+#define KLiwCmdCallImageStr               "1028245E"
+#define KLiwCmdNFCGiveStr                 "1028245F"
+#define KLiwCmdSettingWizardEmailViewStr  "10281C95"
+#define KLiwCmdContentSearchStr           "10282844"
+#define KLiwCmdAnyCmdForObjectStr         "102823F1"
+#define KLiwCmdEasyVoIPProvisioningStr    "10283099"
+#define KLiwCmdAssignScreenSaverStr       "1028309A"
+#define	KLiwCmdCSCServicePluginsStr  	  "1020E56F"
+#define	KLiwCmdCSCUiExtensionPluginsStr   "10282EF7" 
+
+/**
+* Service command options (bits) to alter command handling behaviour.
+*/
+enum TLiwServiceCmdOptions
+    {
+    /**
+    * Consumer wants asynchronous command handling.
+    * The default is synchronous command handling.
+    * In asynchronous case consumer needs to pass a callback to provider.
+    */
+    KLiwOptASyncronous = 0x0001,
+
+    /**
+    * Consumer wants provider to make a callback to check coming output
+    * parameters prior returning from service command handling.
+    * Consumer needs to pass a callback to provider.
+    */
+    KLiwOptOutParamCheck = 0x0002,
+
+    /**
+    * Consumer tells provider that it is prepared to handle
+    * callback events for possibly incomplete/wrong parameter list. 
+    */
+    KLiwOptInParamCheck = 0x0004,
+    
+    /**
+    * Consumer wants to cancel an asynchronous LIW service. 
+    * When a consumer wants to cancel the asynchronous service that a provider
+    * is executing, it should call ExecuteMenuCmdL() or ExecuteServiceCmdL() 
+    * with the same parameters as when requesting the service, but set this 
+    * cancel bit on. The cancel operation itself is synchronous, i.e. the 
+    * provider must call the consumer's callback with KLiwEventCanceled before 
+    * the Execute*CmdL() returns.
+    */
+    KLiwOptCancel = 0x0008
+    };
+
+
+/**
+* Service classes (UID). Technically these are same as service interface UIDs.
+*/
+enum TLiwServiceClass
+    {
+    /** 
+    * None. 
+    */
+    KLiwClassNone = 0x0,
+
+    /**
+    * Base service (no UI expected). 
+    * Every other class must implement this always!
+    */
+    KLiwClassBase = 0x200159f5,
+
+    /** 
+    * Filter service class. 
+    */
+    KLiwClassFilter = 0x101F8651,
+
+    /** 
+    * Menu service class (offers menu based services).
+    */
+    KLiwClassMenu = 0x101F8652,
+
+    /** 
+    * Stub service class.
+    */
+    KLiwClassStub = 0x101F8653,
+       
+    /** 
+    * View service class (offers view based services).
+    */
+    KLiwClassView = 0x101F8654,
+
+    /** 
+    * This class is for R&D purposes.  
+    */
+    KLiwClassDebug = 0x101F866B
+    };
+
+
+/**
+* Event codes. To be used with HandleNotifyL method.
+*/
+enum
+    {
+    /**
+    * Asynchronous service informs consumer to prepare itself for 
+    * action. 
+    */
+    KLiwEventStarted = 1,
+
+    /**
+    * Asynchronous service request completed.
+    */
+    KLiwEventCompleted = 2,
+
+    /**
+    * Asynchronous service request canceled.
+    */
+    KLiwEventCanceled = 3,
+    
+    /**
+    * Error during asynchronous service request.
+    */
+    KLiwEventError = 4,
+    
+    /**
+    * Relates to KLiwOptOutParamCheck.
+    */
+    KLiwEventOutParamCheck = 5,
+    
+    /**
+    * Relates to KLiwOptInParamCheck.
+    */
+    KLiwEventInParamCheck = 6,
+    
+    /**
+    * Provider informs consumer that service is no longer available or 
+    * has stopped.
+    */
+    KLiwEventStopped = 7,
+    
+    /**
+    * Provider asks consumer whether Exit can be done (needed at least in 
+    * embedded use cases where server application offers Exit possibility 
+    * to end user, but consumer can not allow Exit due to fact that for
+    * example network connections owned by consumer are open and they need 
+    * to be kept alive).    
+    */
+    KLiwEventQueryExit = 8,
+    
+    /**
+    * Provider informs consumer about the ongoing asynchronous
+    * service execution. 
+    */
+    KLiwEventInProgress = 9
+    };
+    
+// ============================================================================
+// Menu item flags for LIW consumers.   
+// ============================================================================ 
+/** 
+ * Always keep the provider menu items in a submenu. 
+ */
+#define LIW_CASCADE_ID               0x01010001
+
+/** 
+ * Menu item is placed intelligently either to the main level or a submenu. 
+ */
+#define LIW_INTELLIGENT_CASCADE_ID   0x01010010
+
+/** 
+ * Consumer defines the menu title. 
+ */
+#define LIW_LOCK_SUBMENU_TITLE       0x00000020
+
+// ============================================================================
+// Criteria item flags for LIW consumers.    
+// ============================================================================
+/** 
+ * Criteria item loadOptions bit, only providers in ROM are accepted. 
+ */
+#define LIW_OPTIONS_ROM_ONLY         0x01
+
+// ============================================================================
+// Menu item flags for LIW providers.
+// ============================================================================
+/** 
+ * For providers only: Provider suggests the submenu title. 
+ */
+#define LIW_SUBMENU_TITLE            0x0ff11012
+
+#endif // LIW_COMMON_HRH
+
+// End of file
+
+

@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<api id="730be64774621b57a419389b18668ccd" dataversion="1.0">
+<name>liw_provider_utility_api</name>
+<description>Utilities that help implementing LIW providers.</description>
+<type>c++</type>
+<subsystem>languageinterworkingfw</subsystem>
+<libs><lib name="liwservicehandler.lib"/>
+</libs>
+<release category="domain" sinceversion=""/>
+<attributes>
+<htmldocprovided>yes</htmldocprovided>
+<adaptation>no</adaptation>
+</attributes>
+</api>

@@ -1,0 +1,50 @@
+/*
+* Copyright (c) 2003-2005 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:       Menu resource slot definitions.
+*
+*/
+
+
+
+
+
+
+
+#ifndef _LIW_MENU_SLOT_HRH
+#define _LIW_MENU_SLOT_HRH
+
+// Base value can be changed if needed, but other values
+// MUST be consecutive.
+#define ELiwMenuSlotBase 0x5000
+#define ELiwMenuSlot0    ELiwMenuSlotBase
+#define ELiwMenuSlot1    (ELiwMenuSlotBase + 1)
+#define ELiwMenuSlot2    (ELiwMenuSlotBase + 2)
+#define ELiwMenuSlot3    (ELiwMenuSlotBase + 3)
+#define ELiwMenuSlot4    (ELiwMenuSlotBase + 4)
+#define ELiwMenuSlot5    (ELiwMenuSlotBase + 5)
+#define ELiwMenuSlot6    (ELiwMenuSlotBase + 6)
+#define ELiwMenuSlot7    (ELiwMenuSlotBase + 7)
+#define ELiwMenuSlot8    (ELiwMenuSlotBase + 8)
+#define ELiwMenuSlot9    (ELiwMenuSlotBase + 9)
+#define ELiwMenuSlot10   (ELiwMenuSlotBase + 10)
+#define ELiwMenuSlot11   (ELiwMenuSlotBase + 11)
+#define ELiwMenuSlot12   (ELiwMenuSlotBase + 12)
+#define ELiwMenuSlot13   (ELiwMenuSlotBase + 13)
+#define ELiwMenuSlot14   (ELiwMenuSlotBase + 14)
+#define ELiwMenuSlot15   (ELiwMenuSlotBase + 15)
+    
+
+#endif  // LIW_MENU_SLOT_HRH
+
+// End of file

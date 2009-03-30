@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<api id="071ad9643b986c7f19e4342924c3544a" dataversion="1.0">
+<name>liw_generic_parameter_api</name>
+<description>Generic parameter API supports the creation of generic parameters and passing them from a consumer to provider(s) (input parameters) and vice versa (output parameters).</description>
+<type>c++</type>
+<subsystem>languageinterworkingfw</subsystem>
+<libs><lib name="liwservicehandler.lib"/>
+</libs>
+<release category="domain" sinceversion=""/>
+<attributes>
+<htmldocprovided>yes</htmldocprovided>
+<adaptation>no</adaptation>
+</attributes>
+</api>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<policy>
+		<!-- specify a protection domain -->
+		<domain name="UnTrusted">				
+				<!-- always allowed capabilities for this domain -->
+				<!-- there can be only one "allow" node under "domain" node -->
+				<allow>
+						<capabilities>
+								<capability>ReadUserData</capability>
+								<capability>WriteUserData</capability>
+						</capabilities>
+				</allow>
+				
+				<!-- user-grantable capabilities for this domain -->
+				<user>
+						<condition>oneshot</condition>
+						<defaultCondition>oneshot</defaultCondition>
+						<capabilities>
+								<capability>DRM</capability>								
+						</capabilities>
+				</user>
+				
+				<user>
+						<condition>session</condition>
+						<defaultCondition>session</defaultCondition>
+						<capabilities>
+								<capability>ReadDeviceData</capability>
+								<capability>WriteDeviceData</capability>
+								<capability>Location</capability>
+						</capabilities>
+				</user>
+				
+				<!-- could extend this to other types of conditional capabilities -->
+		</domain>
+		
+		<domain name="Nokia">
+				<!-- always allowed capabilities for this domain -->
+				<allow>
+						<capabilities>
+								<capability>ReadUserData</capability>
+						</capabilities>
+				</allow>
+				
+				<!-- user-grantable capabilities for this domain -->
+				<user>
+						<condition>session</condition>
+						<defaultCondition>session</defaultCondition>
+						<capabilities>
+								<capability>WriteUserData</capability>
+						</capabilities>
+				</user>
+		</domain>
+		
+</policy>
+
+
