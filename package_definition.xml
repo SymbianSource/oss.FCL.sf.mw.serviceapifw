@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE SystemDefinition [
+ <!ELEMENT SystemDefinition ( systemModel?, SystemBuild? )>
+ <!ATTLIST SystemDefinition
+  name CDATA #REQUIRED
+  schema CDATA #REQUIRED>
+ <!ELEMENT systemModel (layer+)>
+ <!ELEMENT layer (block* | collection*)*>
+ <!ATTLIST layer
+  name CDATA #REQUIRED
+  long-name CDATA #IMPLIED
+  levels NMTOKENS #IMPLIED
+  span CDATA #IMPLIED>
+ <!ELEMENT block (subblock* | collection*)*>
+ <!ATTLIST block
+  levels NMTOKENS #IMPLIED
+  span CDATA #IMPLIED
+  level NMTOKEN #IMPLIED
+  name CDATA #REQUIRED
+  long-name CDATA #IMPLIED>
+ <!ELEMENT subblock (collection)*>
+ <!ATTLIST subblock
+  name CDATA #REQUIRED
+  long-name CDATA #IMPLIED>
+ <!ELEMENT collection (component)*>
+ <!ATTLIST collection
+  name CDATA #REQUIRED
+  long-name CDATA #IMPLIED
+  level NMTOKEN #IMPLIED>
+ <!ELEMENT component (unit)*>
+ <!ATTLIST component
+  name CDATA #REQUIRED
+  long-name CDATA #IMPLIED
+  deprecated CDATA #IMPLIED
+  introduced CDATA #IMPLIED
+  contract CDATA #IMPLIED
+  plugin (Y|N) "N"
+  filter CDATA #IMPLIED
+  class NMTOKENS #IMPLIED
+  supports CDATA #IMPLIED
+  purpose ( optional | mandatory | development ) "optional">
+ <!ELEMENT unit EMPTY >
+ <!ATTLIST unit
+  mrp CDATA #IMPLIED
+  filter CDATA #IMPLIED
+  bldFile CDATA #IMPLIED
+  root CDATA #IMPLIED
+  version NMTOKEN #IMPLIED
+  prebuilt NMTOKEN #IMPLIED
+  late (Y|N) #IMPLIED
+  priority CDATA #IMPLIED>
+ <!ELEMENT SystemBuild (option* | target+ | targetList+ | list+ | configuration+)*>
+ <!ATTLIST SystemBuild schema CDATA #REQUIRED>
+ <!ELEMENT list (ref+)>
+ <!ATTLIST list
+  name ID #REQUIRED
+  description CDATA #REQUIRED>
+ <!ELEMENT ref EMPTY>
+ <!ATTLIST ref item CDATA #REQUIRED>
+ <!ELEMENT targetList EMPTY>
+ <!ATTLIST targetList
+  name ID #REQUIRED
+  description CDATA #REQUIRED
+  target IDREFS #REQUIRED>
+ <!ELEMENT target EMPTY>
+ <!ATTLIST target
+  name ID #REQUIRED
+  abldTarget CDATA #REQUIRED
+  description CDATA #REQUIRED>
+ <!ELEMENT option EMPTY>
+ <!ATTLIST option
+  name ID #REQUIRED
+  abldOption CDATA #REQUIRED
+  description CDATA #REQUIRED
+  enable (Y | N ) #REQUIRED>
+ <!ELEMENT configuration (listRef+ | ref+ | task+)*>
+ <!ATTLIST configuration
+  name ID #REQUIRED
+  description CDATA #REQUIRED
+  filter CDATA #REQUIRED>
+ <!ELEMENT task (listRef* , (buildLayer | specialInstructions))>
+ <!ELEMENT listRef EMPTY>
+ <!ATTLIST listRef list CDATA #REQUIRED>
+ <!ELEMENT buildLayer EMPTY>
+ <!ATTLIST buildLayer
+  command CDATA #REQUIRED
+  targetList IDREFS #IMPLIED
+  unitParallel (Y | N ) #REQUIRED
+  targetParallel (Y | N ) "N">
+ <!ELEMENT specialInstructions EMPTY>
+ <!ATTLIST specialInstructions
+  name CDATA #REQUIRED
+  cwd CDATA #REQUIRED
+  root CDATA #IMPLIED
+  command CDATA #REQUIRED>
+]>
+<SystemDefinition name="Foundation" schema="2.0.1">
+ <systemModel>
+  <layer name="mw" long-name="Middleware" levels="generic specific">
+   <block long-name="Service API Framework" level="specific" name="serviceapifw" levels="plugin framework server generic specific">
+    <!-- Following Collection added by SF via autopopulating script from S60 Model -->
+    <collection name="serviceapifw" long-name="serviceapifw">
+     <!-- Following Component added by SF via autopopulating script from S60 Model -->
+     <component name="serviceapifw" long-name="serviceapifw">
+      <!-- Unit added by SF via autopopulating script from S60 Model -->
+      <unit bldFile="mw/serviceapifw/group"/>
+     </component>
+    </collection>
+   </block>
+  </layer>
+ </systemModel>
+<SystemBuild schema="1.0.0">
+  <option name="KEEPGOING" abldOption="-keepgoing" description="Causes make to keepgoing on errors" enable="Y"/>
+  <option name="SAVESPACE" abldOption="-savespace" description="Causes the removal of intermediate files" enable="Y"/>
+  <option name="NO_DEBUG" abldOption="-no_debug" description="Causes the toolchain not to generate debug tables" enable="N"/>
+  <target name="WINS" abldTarget="wins" description="MSVC Compiler"/>
+  <target name="WINS_REL" abldTarget="wins urel" description="MSVC Compiler"/>
+  <target name="WINS_DEB" abldTarget="wins udeb" description="MSVC Compiler"/>
+  <target name="WINSCW" abldTarget="winscw" description="CodeWarrior Compiler"/>
+  <target name="WINSCW_REL" abldTarget="winscw urel" description="CodeWarrior Compiler"/>
+  <target name="WINSCW_DEB" abldTarget="winscw udeb" description="CodeWarrior Compiler"/>
+  <target name="TOOLS" abldTarget="tools" description="MSVC Compiler for Tools"/>
+  <target name="TOOLS_REL" abldTarget="tools rel" description="MSVC Compiler for Tools Release mode only"/>
+  <target name="TOOLS2" abldTarget="tools2" description="MinGW GCC Compiler for Tools"/>
+  <target name="TOOLS2_REL" abldTarget="tools2 rel" description="MinGW GCC Compiler for Tools Release mode only"/>
+  <target name="ARMV5" abldTarget="armv5" description="RVCT Compiler"/>
+  <target name="ARMV5_REL" abldTarget="armv5 urel" description="RVCT Compiler"/>
+  <target name="ARMV5_DEB" abldTarget="armv5 udeb" description="RVCT Compiler"/>
+  <!-- Aditional Targets -->
+  <target name="CWTOOLS" abldTarget="cwtools" description="CodeWarrior Compiler for Tools"/> <!-- Not supported -->
+  <target name="CWTOOLS_REL" abldTarget="cwtools rel" description="CodeWarrior Compiler for Tools Release mode only"/> <!-- Not supported -->
+  <target name="GCCXML" abldTarget="gccxml" description="GCCXML for Code comparision tools"/>
+  <target name="GCCXML_REL" abldTarget="gccxml urel" description="GCCXML for Code comparision tools release mode only"/>
+  <targetList name="default_9.0" description="Main Targets for 9.0" target="WINSCW ARMV5"/>
+  <targetList name="default_9.0_rel" description="Main Targets for 9.0_rel" target="WINSCW_REL ARMV5_REL"/>
+  <targetList name="default_9.0_deb" description="Main Targets for 9.0_deb" target="WINSCW_DEB ARMV5_DEB"/>
+  <targetList name="tools" description="tools Targets" target="TOOLS"/>
+  <targetList name="tools_rel" description="tools Release Targets" target="TOOLS_REL"/>
+  <targetList name="tools2" description="tools Targets" target="TOOLS2"/>
+  <targetList name="tools2_rel" description="tools Release Targets" target="TOOLS2_REL"/>
+  <targetList name="gccxml" description="tools Targets" target="GCCXML"/>
+  <targetList name="gccxml_rel" description="tools Release Targets" target="GCCXML_REL"/>
+  <!-- 9.4 configuration -->
+    <!-- tb91 configuration -->
+    <!-- tb91sf configuration -->
+  <configuration name="GT_tb91sf" description="tb91sf GT build" filter="tb91sf,gt,raptor_GT_tb91sf">
+    <ref item="os"/>
+    <ref item="mw"/>
+    <ref item="app"/>
+    <task><specialInstructions name="BootStrap1" cwd="os\buildtools\sbsv1_os\e32toolp\group" command="setupprj.bat secure"/></task>
+    <task><specialInstructions name="BootStrap2" cwd="os\buildtools\sbsv1_os\e32toolp\group" command="bld.bat rel"/></task>
+    <task><buildLayer command="bldmake bldfiles" unitParallel="Y"/></task>
+    <task><buildLayer command="abld export" unitParallel="Y"/></task>
+    <task><buildLayer command="abld makefile" targetList="tools" unitParallel="Y" targetParallel="N"/></task>
+    <task><buildLayer command="abld library" targetList="tools" unitParallel="N" targetParallel="N"/></task>
+    <task><buildLayer command="abld target" targetList="tools_rel" unitParallel="N" targetParallel="N"/></task>
+    <task><buildLayer command="abld final" targetList="tools_rel" unitParallel="N" targetParallel="N"/></task>
+    <task><buildLayer command="abld -what build" targetList="tools_rel" unitParallel="N" targetParallel="N"/></task>
+    <task><buildLayer command="abld -check build" targetList="tools_rel" unitParallel="N" targetParallel="N"/></task>
+    <task><buildLayer command="abld makefile" targetList="tools2" unitParallel="Y" targetParallel="Y"/></task>
+    <task><buildLayer command="abld library" targetList="tools2" unitParallel="Y" targetParallel="Y"/></task>
+    <task><buildLayer command="abld target" targetList="tools2_rel" unitParallel="Y" targetParallel="Y"/></task> 
+    <task><buildLayer command="abld final" targetList="tools2_rel" unitParallel="Y" targetParallel="Y"/></task>
+    <task><buildLayer command="abld -what build" targetList="tools2_rel" unitParallel="Y" targetParallel="Y"/></task>
+    <task><buildLayer command="abld -check build" targetList="tools2_rel" unitParallel="Y" targetParallel="Y"/></task>
+    <task><buildLayer command="abld makefile" targetList="default_9.0" unitParallel="Y" targetParallel="N"/></task>
+    <task><buildLayer command="abld resource" targetList="default_9.0" unitParallel="N" targetParallel="N"/></task>
+    <task><buildLayer command="abld library" targetList="default_9.0" unitParallel="N" targetParallel="N"/></task>
+    <task><buildLayer command="abld target" targetList="default_9.0" unitParallel="Y" targetParallel="Y"/></task>
+    <task><buildLayer command="abld final" targetList="default_9.0" unitParallel="N" targetParallel="N"/></task>
+    <task><buildLayer command="abld -what export" unitParallel="Y"/></task>
+    <task><buildLayer command="abld -what target" targetList="default_9.0_rel" unitParallel="Y" targetParallel="Y"/></task>
+    <task><buildLayer command="abld -what target" targetList="default_9.0_deb" unitParallel="Y" targetParallel="Y"/></task>
+    <task><buildLayer command="abld help" unitParallel="Y"/></task>
+    <task><buildLayer command="abld -check build" targetList="default_9.0" unitParallel="Y" targetParallel="Y"/></task>
+  </configuration>
+</SystemBuild>
+</SystemDefinition>
