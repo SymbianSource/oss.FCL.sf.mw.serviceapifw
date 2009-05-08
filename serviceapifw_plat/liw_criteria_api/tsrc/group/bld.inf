@@ -30,17 +30,16 @@ DEFAULT
 PRJ_TESTEXPORTS
 // NOTE: If using ARS requirements all export operations should be done under this.
 // 'abld test export'
-
-PRJ_EXPORTS
-PRJ_EXPORTS
 ../data/liwaccesspolicy.xml      	/epoc32/winscw/c/data/others/liwaccesspolicy.xml
 //../init/testframework.ini      /epoc32/WINSCW/C/TestFramework/testframework.ini 
 ../conf/tliwtestcases.cfg      /epoc32/WINSCW/C/TestFramework/tliwtestcases.cfg
 
+PRJ_EXPORTS
 
 PRJ_TESTMMPFILES
 // NOTE: If using ARS requirements .mmp file operation should be done under this.
 // 'abld test build'
+liwtestcases.mmp
 
 PRJ_MMPFILES
 // Specify the .mmp files required for building the important component
@@ -56,6 +55,6 @@ PRJ_MMPFILES
 /agnmodel/group/agsvexe.mmp
 #endif
 */
-liwtestcases.mmp
+
 
 //  End of File

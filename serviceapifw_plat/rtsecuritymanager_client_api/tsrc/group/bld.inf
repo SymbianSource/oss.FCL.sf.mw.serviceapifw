@@ -31,8 +31,6 @@ DEFAULT
 PRJ_TESTEXPORTS
 // NOTE: If using ARS requirements all export operations should be done under this.
 // 'abld test export'
-
-PRJ_EXPORTS
 //../init/testframework.ini      /epoc32/WINSCW/C/TestFramework/testframework.ini 
 ../conf/ui_tsecuritymanager.cfg      /epoc32/WINSCW/C/TestFramework/ui_tsecuritymanager.cfg
 ../conf/ui_tsecuritymanager_comb.cfg      /epoc32/WINSCW/C/TestFramework/ui_tsecuritymanager_comb.cfg
@@ -40,6 +38,10 @@ PRJ_EXPORTS
 ../data/accesspolicy_1.xml           /epoc32/WINSCW/C/data/others/accesspolicy_1.xml 
 ../data/accesspolicy_2.xml           /epoc32/WINSCW/C/data/others/accesspolicy_2.xml 
 ../data/accesspolicy_3.xml           /epoc32/WINSCW/C/data/others/accesspolicy_3.xml 
+
+
+PRJ_EXPORTS
+
 
 
 // Specify the source file followed by its destination here
@@ -54,6 +56,8 @@ PRJ_EXPORTS
 PRJ_TESTMMPFILES
 // NOTE: If using ARS requirements .mmp file operation should be done under this.
 // 'abld test build'
+ui_tsecuritymanager.mmp
+
 
 PRJ_MMPFILES
 // Specify the .mmp files required for building the important component
@@ -69,6 +73,6 @@ PRJ_MMPFILES
 /agnmodel/group/agsvexe.mmp
 #endif
 */
-ui_tsecuritymanager.mmp
+
 
 //  End of File

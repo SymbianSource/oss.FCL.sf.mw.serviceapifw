@@ -1522,6 +1522,7 @@ TInt TLiwVariant::Size() const
             	size += 1;	
             	}
             size += iPtrC.Size();
+            size += 1;              // extra one byte for Unicode marker
             break;
             }
         case EVariantTypeDesC8:

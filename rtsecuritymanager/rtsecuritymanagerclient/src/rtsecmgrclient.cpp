@@ -51,7 +51,7 @@ RSecMgrSession::RSecMgrSession()
 // The number of message slot is defaulted to 4.
 // ---------------------------------------------------------------------------
 //
-TInt RSecMgrSession::Connect()
+/*TInt RSecMgrSession::Connect()
 	{
 	RTSecMgrTraceFunction("RSecMgrSession::Connect()") ;
 	TInt retry(KSecSrvClientTryCount); // Try this twice
@@ -91,7 +91,63 @@ TInt RSecMgrSession::Connect()
 		retry--;
 		}
 	return (err);
-	}
+	}*/
+
+TInt RSecMgrSession::Connect()
+    {
+    RTSecMgrTraceFunction("RSecMgrSession::Connect()") ;
+    TInt err(KErrNone);
+        // Try to create a Server session
+    err = CreateSession ( KSecServerProcessName, Version (),
+            KDefaultMessageSlots);
+
+    if ( err != KErrNotFound && err != KErrServerTerminated)
+        {
+        // KErrNone or unrecoverable error
+        if ( err != KErrNone)
+            {
+#ifdef _DEBUG
+            RDebug::Print(KServerStartFailed);
+#endif
+            }
+        
+        }
+    else
+        {
+        // Return code was KErrNotFound or KErrServerTerminated.
+        // Try to start a new security manager server instance
+        TInt retry(KSecSrvClientTryCount);
+        while(retry > 0)
+            {
+            err = StartSecManagerServer ();
+            if ( err != KErrNone && err != KErrAlreadyExists)
+                {
+                // Unrecoverable error
+                #ifdef _DEBUG
+                            RDebug::Print(KServerStartFailed);
+                #endif
+                retry = 0;
+                }
+            else
+                {
+                err = CreateSession ( KSecServerProcessName, Version (),
+                                                KDefaultMessageSlots);
+                if(err != KErrNotFound && err != KErrServerTerminated)
+                    {
+                    if ( err != KErrNone)
+                                {
+                    #ifdef _DEBUG
+                                RDebug::Print(KServerStartFailed);
+                    #endif
+                                }
+                    retry = 0;
+                    }
+                }
+            retry--;
+            }
+        }       
+    return (err);
+    }
 
 // ---------------------------------------------------------------------------
 // Starts runtime security manager server

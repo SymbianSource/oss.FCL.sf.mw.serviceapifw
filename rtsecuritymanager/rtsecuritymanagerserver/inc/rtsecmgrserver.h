@@ -37,7 +37,7 @@ class CSecMgrStore;
 
 //needed for creating server thread.
 const TUint KDefaultHeapSize=0x10000;
-const TUint KShutDownDelay = 200000; // Aprox 2 sec
+const TUint KShutDownDelay = 2000000; // Aprox 2 sec
 
 /*
  * Shutdown timer class
