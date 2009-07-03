@@ -216,6 +216,19 @@ TInt Cliwtestcases::RunMethodL(
         ENTRY( "LIW_ASYNC_002", Cliwtestcases::LIW_ASYNC_002 ),
         ENTRY( "LIW_ASYNC_003", Cliwtestcases::LIW_ASYNC_003 ),
         ENTRY( "LIW_ASYNC_004", Cliwtestcases::LIW_ASYNC_004 ),
+        ENTRY( "LIW_ASYNC_LongServiceCmd", Cliwtestcases::LIW_ASYNC_LongServiceCmd ),
+        ENTRY( "LIW_ASYNC_LongInterface", Cliwtestcases::LIW_ASYNC_LongInterface ),
+        ENTRY( "LIW_ASYNC_LongInterface1", Cliwtestcases::LIW_ASYNC_LongInterface1 ),
+        ENTRY( "LIW_ASYNC_LongInvalidServiceCmd", Cliwtestcases::LIW_ASYNC_LongInvalidServiceCmd ),
+        ENTRY( "LIW_ASYNC_LongInvalidInterface", Cliwtestcases::LIW_ASYNC_LongInvalidInterface ),
+        ENTRY( "LIW_ParamCleanup1", Cliwtestcases::LIW_ParamCleanup1 ),
+        ENTRY( "LIW_GetInterest", Cliwtestcases::LIW_GetInterest ),
+        ENTRY( "LIW_Defaut_list_externalize", Cliwtestcases::LIW_Defaut_list_externalize ),
+        ENTRY( "LIW_DATA_TYPES_013_A", Cliwtestcases::LIW_DATA_TYPES_013_A ),
+        ENTRY( "LIW_DATA_TYPES_015_A", Cliwtestcases::LIW_DATA_TYPES_015_A ),
+        ENTRY( "LIW_DATA_TYPES_015", Cliwtestcases::LIW_DATA_TYPES_015 ),
+        ENTRY( "LIW_DATA_GenericParamList", Cliwtestcases::LIW_DATA_GenericParamList ),
+        ENTRY( "LIW_DATA_NewLOverLoad", Cliwtestcases::LIW_DATA_NewLOverLoad )
                         
         //ADD NEW ENTRY HERE
         // [test cases entries] - Do not remove
@@ -1142,7 +1155,7 @@ TBool Cliwtestcases::LIW_DATA_TYPES_015()
          
          {//TUint check
             TUint uintRet;
-            if(EFalse!=intVar.Get(uintRet))
+            if(EFalse==intVar.Get(uintRet))
             {
                 flag = 0;
             }           
@@ -1190,6 +1203,21 @@ TBool Cliwtestcases::LIW_DATA_TYPES_015()
             }*/
          }
          
+         {//TInt64 check
+                     TInt64 int64Ret;
+                     if(EFalse==intVar.Get(int64Ret))
+                     {
+                         flag = 0;
+                     }           
+         }
+         
+         {//TReal check
+                     TReal realRet;
+                     if(EFalse==intVar.Get(realRet))
+                     {
+                         flag = 0;
+                     }           
+         }
          return !flag;           
     }
     
@@ -1239,6 +1267,32 @@ TBool Cliwtestcases::LIW_DATA_TYPES_016()
         RFile pRet=intVar.AsFileHandle();
         
         //Don't check pRet for RFile
+     }
+     
+     {
+         CLiwBuffer* pRet = intVar.AsBuffer();
+         if(NULL!=pRet)
+                 {
+                     flag = 0;
+                 }
+     }
+     
+     {
+         TInt64 pRet = intVar.AsTInt64();
+         if(pRet != NULL)
+             flag = 1;
+     }
+     
+     {
+         const TTime pRet = intVar.AsTTime();
+     }
+     
+     {
+         TUid pRet = intVar.AsTUid();
+     }
+     
+     {
+         TBool pRet = intVar.AsTBool();
      }
      return !flag;           
 }
@@ -2969,6 +3023,486 @@ TInt Cliwtestcases::LIW_ASYNC_004()
     return asyObj->AsyncCase(4);
     }
 
+TInt Cliwtestcases::LIW_ASYNC_LongServiceCmd()
+    {
+        TBool flag = 0;
+        /*Testing String Based Command*/
+        RCriteriaArray interest;
+        CleanupClosePushL(interest);
+        _LIT8(KLongCmd,"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        _LIT8(KNoCmd,"");
+       
+        /******For a different test************/
+        CLiwCriteriaItem* criteria1 = CLiwCriteriaItem::NewLC(1, KLongCmd, KNoCmd);
+        criteria1->SetServiceCmd(1);
+        CleanupStack::PopAndDestroy(criteria1);
+        /******End For a different test************/
+        
+        
+        
+        
+        
+        CLiwCriteriaItem* criteria = CLiwCriteriaItem::NewLC(1, KLongCmd, KNoCmd);
+        
+        criteria->SetServiceClass(TUid::Uid(KLiwClassBase));
+        
+        
+
+        interest.AppendL(criteria);
+        TInt status;
+        // Attach the MyServiceName provider to the LIW framework.
+        TRAPD(status1,status = iServiceHandler->AttachL(interest));
+         
+        if(!status || status1)
+            {
+            iServiceHandler->DetachL(interest);    
+            CleanupStack::PopAndDestroy(criteria);
+            CleanupStack::PopAndDestroy(&interest);   
+            return KErrGeneral;
+            }
+
+        
+        // Detach The MyServiceName Provider
+        iServiceHandler->DetachL(interest);    
+        CleanupStack::PopAndDestroy(criteria);
+        CleanupStack::PopAndDestroy(&interest);   
+        return KErrNone;
+    }
+    
+
+TInt Cliwtestcases::LIW_ASYNC_LongInvalidServiceCmd()
+    {
+        TBool flag = 0;
+        /*Testing String Based Command*/
+        RCriteriaArray interest;
+        CleanupClosePushL(interest);
+        _LIT8(KLongCmd,"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        _LIT8(KNoCmd,"");
+       
+        CLiwCriteriaItem* criteria = CLiwCriteriaItem::NewLC(1, KLongCmd, KNoCmd);
+       
+        criteria->SetServiceClass(TUid::Uid(KLiwClassBase));
+
+        interest.AppendL(criteria);
+       
+        // Attach the MyServiceName provider to the LIW framework.
+        TRAPD(status1,iServiceHandler->AttachL(interest));
+       
+        TInt status = status1;
+       
+        
+        //iServiceHandler->DetachL(interest);    
+        CleanupStack::PopAndDestroy(criteria);
+        CleanupStack::PopAndDestroy(&interest);
+        if(status == KLiwUnknown)
+            {
+       
+            return KErrNone;
+            }
+        
+        else
+            return KErrGeneral;
+
+       
+    }
+    
+
+TInt Cliwtestcases::LIW_ASYNC_LongInterface()
+    {
+        TBool flag = 0;
+        /*Testing String Based Command*/
+        RCriteriaArray interest;
+        CleanupClosePushL(interest);
+        _LIT8(KNoCmd,"");
+        _LIT8(KLongCmd,"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        CLiwCriteriaItem* criteria = CLiwCriteriaItem::NewLC(1, KNoCmd, KLongCmd);
+        criteria->SetServiceClass(TUid::Uid(KLiwClassBase));
+
+        interest.AppendL(criteria);
+        TInt status ;
+        // Attach the MyServiceName provider to the LIW framework.
+        TRAPD(status1,status  = iServiceHandler->AttachL(interest));
+       
+
+       // Detach The MyServiceName Provider
+       iServiceHandler->DetachL(interest);    
+       CleanupStack::PopAndDestroy(criteria);
+       CleanupStack::PopAndDestroy(&interest);
+       
+       if(!status || status1)
+           {
+           return KErrGeneral;
+           }
+       
+          
+       return KErrNone;
+    }
+    
+
+TInt Cliwtestcases::LIW_ASYNC_LongInvalidInterface()
+    {
+        TBool flag = 0;
+        /*Testing String Based Command*/
+        RCriteriaArray interest;
+        CleanupClosePushL(interest);
+        _LIT8(KNoCmd,"");
+        _LIT8(KLongCmd,"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        CLiwCriteriaItem* criteria = CLiwCriteriaItem::NewLC(1, KNoCmd, KLongCmd);
+        criteria->SetServiceClass(TUid::Uid(KLiwClassBase));
+
+        interest.AppendL(criteria);
+        TInt status ;
+        // Attach the MyServiceName provider to the LIW framework.
+        TRAPD(status1,status = iServiceHandler->AttachL(interest));
+       
+
+       // Detach The MyServiceName Provider
+       //iServiceHandler->DetachL(interest);    
+       CleanupStack::PopAndDestroy(criteria);
+       CleanupStack::PopAndDestroy(&interest);
+       
+       if(status1 == KLiwUnknown)
+           {
+           return KErrNone;
+           }
+       
+          
+       return KErrGeneral;
+    }
+
+
+TInt Cliwtestcases::LIW_ASYNC_LongInterface1()
+    {
+        TBool flag = 0;
+        /*Testing String Based Command*/
+        RCriteriaArray interest;
+        CleanupClosePushL(interest);
+        _LIT8(KNoCmd,"aaaaaaaaaaaaaaaaaa"); //18
+        _LIT8(KLongCmd,"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"); //220
+        CLiwCriteriaItem* criteria = CLiwCriteriaItem::NewLC(1, KNoCmd, KLongCmd);
+        criteria->SetServiceClass(TUid::Uid(KLiwClassBase));
+
+        interest.AppendL(criteria);
+        TInt status ;
+        // Attach the MyServiceName provider to the LIW framework.
+        TRAPD(status1,status = iServiceHandler->AttachL(interest));
+       
+
+       // Detach The MyServiceName Provider
+       iServiceHandler->DetachL(interest);    
+       CleanupStack::PopAndDestroy(criteria);
+       CleanupStack::PopAndDestroy(&interest);
+       
+       if(!status || status1)
+           {
+           return KErrGeneral;
+           
+           }
+       
+       return KErrNone; 
+      
+    }
+
+TInt Cliwtestcases::LIW_ParamCleanup1()
+{
+    TRAP_IGNORE(TestParam1L());
+    
+    return KErrNone;
+}
+
+void Cliwtestcases::TestParam1L()
+{    
+    TLiwGenericParam param;
+    CleanupStack::PushL( TCleanupItem( TLiwGenericParam::ParamCleanup , &param ) ); 
+    User::Leave(KErrGeneral);  //This calls the ParamCleanup method which cleans up TLiwGenericParam 
+    CleanupStack::Pop(&param);
+    param.Reset();
+    //Leaves before CleanupStack::Pop and reset is called
+    User::Leave(KErrGeneral);
+    
+}
+
+
+TInt Cliwtestcases::LIW_GetInterest()
+{
+
+        RCriteriaArray interest1;
+        
+        iServiceHandler->GetInterest(interest1);
+        CLiwCriteriaItem* item1 = CLiwCriteriaItem::NewLC();
+        for(TInt i = 0; i < interest1.Count(); i++)
+               {
+               
+                   
+               item1->SetId(interest1[i]->Id());
+               if (interest1[i]->ServiceCmd() == KLiwCmdAsStr)
+                 item1->SetServiceCmdL(    interest1[i]->ServiceCmdStr()         );
+               else
+                 item1->SetServiceCmd(interest1[i]->ServiceCmd());
+               
+               item1->SetContentTypeL(     interest1[i]->ContentType()           );
+               item1->SetServiceClass(     interest1[i]->ServiceClass()          );
+                
+               }
+        CleanupStack::PopAndDestroy(item1);
+        return KErrNone;
+        
+}
+
+
+
+TBool Cliwtestcases::LIW_Defaut_list_externalize()
+{
+
+    _LIT8(KText,"Test");
+    _LIT8(KExamplekey,"key");
+    CLiwGenericParamList* pList = CLiwGenericParamList::NewLC();
+    RBuf8 binaryData;
+    binaryData.Create(100);
+    binaryData.Append(KText);
+    TLiwGenericParam param;
+    TPtrC8 ptrVar(KExamplekey);
+    param.SetNameAndValueL(ptrVar, TLiwVariant( binaryData ));
+    
+    pList->AppendL(param);
+    //stringsMap->InsertL( KExamplekey, TLiwVariant( binaryData ));
+    
+    RBuf8 datadesc;
+    CleanupClosePushL( datadesc );
+    datadesc.CreateL( pList->Size() );
+    RDesWriteStream datastrm(datadesc);
+    CleanupClosePushL( datastrm );
+    TRAPD(err,pList->ExternalizeL( datastrm ));
+    
+    datastrm.CommitL( );
+    CleanupStack::PopAndDestroy( &datastrm );
+    CleanupStack::PopAndDestroy( &datadesc );
+    binaryData.Close();
+    CleanupStack::PopAndDestroy( pList );
+    
+    if(KErrNone==err)
+        {
+            return err;
+            
+        }
+        
+    return KErrGeneral;   
+         
+}
+
+
+TBool Cliwtestcases::LIW_DATA_TYPES_013_A()
+   {
+       
+       TBool flag = 1;
+          //Reusing LIW_DATA_TYPES_011 test case
+          TLiwGenericParam param;
+          param.Value().Set(KLIW_DATA_TYPES_011);
+          
+          Dump(param.Value());
+          
+          param.SetNameL(KTestPARAMNanmeTC1);
+          CLiwGenericParamList* inps = &(iServiceHandler->InParamListL());
+          CLiwGenericParamList* outps = &(iServiceHandler->OutParamListL());
+          inps->AppendL(param);
+          param.Reset();
+          
+          // Call ExecuteServiceCmdL TO GET THE RESULT
+          CLiwCriteriaItem* crit = CLiwCriteriaItem::NewLC(1, KTestCommandTC1, KContentTypeTxt);
+          crit->SetServiceClass(TUid::Uid(KLiwClassBase));
+          iServiceHandler->ExecuteServiceCmdL(*crit, *inps, *outps); 
+          CleanupStack::PopAndDestroy(crit); // crit
+          
+          // CHECK RESULT 
+          TInt pos = 0;
+          outps->FindFirst(pos, EGenericParamError);
+          
+          if(pos != KErrNotFound)
+              {
+                  if ((*outps)[pos].Value().AsTInt32() == KErrNone)
+                      {
+                      
+                          _LIT8(KIter,"Iterator");
+                          TInt iterPos=0;
+                          outps->FindFirst(iterPos, KIter);
+                          if(pos != KErrNotFound)
+                          {
+                              CLiwIterable* pIter=(*outps)[iterPos].Value().AsIterable();
+                                      
+                                      if((pIter->operator==(*pIter)))
+                                      {   
+                                          flag = 0;
+                                      }
+                          }
+                      }
+                 
+              }
+           
+           return flag;        
+  }
+   
+
+TBool Cliwtestcases::LIW_DATA_TYPES_015_A()
+    {
+         
+         TBool flag = 1;
+         TInt32 intVal=10;
+         TLiwVariant intVar;
+         
+         {//integer check
+            TInt32 intRet=12;
+            intVar.Set(intRet);
+            
+            if(intVar.AsTInt32() == 12)
+                flag = 0;
+           
+         }
+         
+         {//RFile check
+            RFile fileRet;
+            intVar.Set(fileRet);                   
+            fileRet.Close();            
+         }
+         
+         {//Uid check
+            TUid uidRet;
+            intVar.Set(uidRet);
+                       
+         }
+         
+         {//TUint check
+            TUint uintRet=12;
+            intVar.Set(uintRet);
+            
+         }
+         
+         {//TBool check
+            TBool boolRet=EFalse;
+            intVar.Set(boolRet);
+                       
+         }
+         
+         {//TPtrC check
+            TPtrC ptrcRet;
+            intVar.Set(ptrcRet);
+                
+         }
+         
+         {//TTime check
+            TTime timeRet;
+            intVar.Set(timeRet);
+                       
+         }
+         
+         {//TPtrC8 check
+            TPtrC8 ptrcRet;
+            intVar.Set(ptrcRet);
+                       
+         }
+         
+         
+         {//TInt64 check
+                     TInt64 int64Ret = 13;
+                     intVar.Set(int64Ret);
+                               
+         }
+         
+         {//TReal check
+                     TReal realRet = 14.5;
+                     intVar.Set(realRet);
+        }
+         
+         {
+             CLiwBuffer *buf = NULL;
+             intVar.Set(buf);
+         }
+                  
+         return flag;           
+    }
+   
+
+TInt Cliwtestcases::LIW_DATA_GenericParamList()
+{
+        
+      _LIT8(KText,"Test");
+      
+      _LIT8(KExamplekey,"key");
+       RBuf8 binaryData;
+      binaryData.Create(100);
+      binaryData.Append(KText);
+      
+      TLiwGenericParam param;
+      TPtrC8 ptrVar(KExamplekey);
+      param.SetNameAndValueL(ptrVar, TLiwVariant( binaryData ));
+      TGenericParamId SemId = 12;
+      param.SetSemanticId(SemId);
+      
+   /*   
+      CBufFlat *flatBuf = CBufFlat::NewL(10);
+      //flatBuf->SetReserveL(10);
+      flatBuf->ExpandL(0,101);
+      //flatBuf->DoInsertL(0,&ptrVar,ptrVar.Length());
+      TBuf8<5> buf23(KExamplekey);
+      flatBuf->Write(0,&param,100);
+      RBufReadStream buf1(*flatBuf);
+      //strmBuf->WriteL(&binaryData,binaryData.Size());
+     */     
+      CLiwGenericParamList* pList = CLiwGenericParamList::NewLC();
+      pList->AppendL(param);
+      
+      
+      _LIT8(KText1,"Test1");
+      _LIT8(KExamplekey1,"key1");
+      RBuf8 binaryData1;
+      binaryData1.Create(100);
+      binaryData1.Append(KText1);
+      
+      TLiwGenericParam param1;
+      TPtrC8 ptrVar1(KExamplekey1);
+      param1.SetNameAndValueL(ptrVar1, TLiwVariant( binaryData1 ));
+      
+      pList->AppendL(param1);
+      TInt flag = 1;
+      TInt index = 0;
+      pList->FindFirst(index,ptrVar,LIW::EVariantTypeAny);
+      
+      if(index == KErrNotFound)
+          flag = 0;
+      
+      index = 0;
+      pList->FindNext(index,ptrVar1,LIW::EVariantTypeAny);
+      if(index == KErrNotFound)
+                flag = 0;
+      
+      TInt cnt = 0;
+      cnt = pList->Count(SemId,LIW::EVariantTypeAny);
+      
+      if(cnt != 2)
+                flag = 0;
+      
+      pList->Remove(SemId);
+      cnt = pList->Count(SemId,LIW::EVariantTypeAny);
+      
+      binaryData.Close();
+      CleanupStack::PopAndDestroy( pList );
+      
+      if(cnt == 1 && flag == 1)
+          return KErrNone;
+      
+      return KErrGeneral;
+        
+}
+
+
+TInt Cliwtestcases::LIW_DATA_NewLOverLoad()
+{
+          
+    CLiwCriteriaItem* criteria = CLiwCriteriaItem::NewLC(1, 12, KContentTypeTxt);
+    CLiwCriteriaItem* criteria1 = CLiwCriteriaItem::NewLC(1, 13, KContentTypeTxt);
+    CleanupStack::PopAndDestroy( criteria1 );
+    CleanupStack::PopAndDestroy( criteria );
+    return KErrNone;
+}
 // -----------------------------------------------------------------------------
 // Cliwtestcases::?member_function
 // ?implementation_description

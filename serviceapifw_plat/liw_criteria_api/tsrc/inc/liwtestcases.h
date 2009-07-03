@@ -318,6 +318,19 @@ NONSHARABLE_CLASS(Cliwtestcases) : public CScriptBase, public MLiwNotifyCallback
         virtual TInt LIW_ASYNC_003();
         virtual TInt LIW_ASYNC_004();
                 
+        virtual TInt LIW_ASYNC_LongServiceCmd();
+        virtual TInt LIW_ASYNC_LongInterface();
+        virtual TInt LIW_ASYNC_LongInvalidServiceCmd();
+        virtual TInt LIW_ASYNC_LongInvalidInterface();
+        virtual TInt LIW_ASYNC_LongInterface1();
+        virtual TInt LIW_ParamCleanup1();
+        virtual void TestParam1L();
+        virtual TInt LIW_GetInterest();
+        virtual TBool LIW_Defaut_list_externalize();
+        virtual TBool LIW_DATA_TYPES_013_A();
+        virtual TBool LIW_DATA_TYPES_015_A();
+        virtual TInt LIW_DATA_GenericParamList();
+        virtual TInt LIW_DATA_NewLOverLoad();
         /**
          * Method used to log version of test class
          */

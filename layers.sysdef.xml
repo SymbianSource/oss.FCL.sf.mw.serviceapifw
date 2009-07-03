@@ -7,7 +7,6 @@
 <layer name="mw_layer">                        
 <module name="serviceapifw">                             
 <unit name="serviceapifw" unitID="sapido.serviceapifw" bldFile="&layer_real_source_path;/group" mrp="" />
-<unit name="serviceapifw_test" unitID="sapido.serviceapifw.internal" bldFile="&layer_real_source_path;/internal/group" mrp="" />
 </module>    
 </layer>        
 </systemModel>

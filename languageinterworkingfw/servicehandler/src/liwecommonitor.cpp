@@ -24,12 +24,13 @@
 #include "liwcommon.h"
 #include "liwuids.hrh"
 #include "liwserviceifbase.h"
+#include <LiwServiceHandler.h>
 
 // CONSTANTS
 _LIT8(KContentTag, "<CONTENT>");
 _LIT8(KOpaqueTag, "<OPAQUE>");
 _LIT8(KLiwMimeTypeAll, "*");
-
+const TInt KMaxCmdLength = 238;
 const TInt KMaxDataParamSize = 255;
 
 CLiwEcomMonitor* CLiwEcomMonitor::NewL(TCallBack& aSynchronizeCallBack)
@@ -94,6 +95,10 @@ void CLiwEcomMonitor::ListImplemetationsL(RImplInfoPtrArray& aResult,
     TUid resolvUid = { KLiwResolverImplUidValue };  
     
     TBuf8<KMaxDataParamSize> dataType;     
+    if(aItem->ServiceCmdStr().Length() + aItem->ContentType().Length() > KMaxCmdLength)
+        {        
+        User::Leave( KLiwUnknown );
+        }
     dataType.Copy(KContentTag);
     dataType.Append(aItem->ContentType());
     dataType.Append(KOpaqueTag);

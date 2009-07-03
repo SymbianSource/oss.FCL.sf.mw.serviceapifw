@@ -22,7 +22,7 @@
 
 #include "liwresolver.h"
 
-const TInt KMaxDataItemSize = 150;
+const TInt KMaxDataItemSize = 238;
 _LIT8(KContentTag, "<CONTENT>");
 _LIT8(KOpaqueTag, "<OPAQUE>");
 
