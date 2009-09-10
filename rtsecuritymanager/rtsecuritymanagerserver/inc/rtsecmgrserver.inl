@@ -78,6 +78,12 @@ inline void CRTSecMgrServer::UpdatePermGrantL(TExecutableID aExecID,
 	iScriptMgr->UpdatePermGrantL (aExecID, aPermGrant, aPermDenied);
 	}
 
+inline void CRTSecMgrServer::UpdatePermGrantL(TExecutableID aExecID,
+        RProviderArray aAllowedProviders,RProviderArray aDeniedProviders)
+    {
+    iScriptMgr->UpdatePermGrantL (aExecID, aAllowedProviders, aDeniedProviders);
+    }
+
 inline TInt CRTSecMgrServer::ReadCounter(TExecutableID& aExecID)
 	{
 	return iSecMgrDb->ReadCounter (aExecID);

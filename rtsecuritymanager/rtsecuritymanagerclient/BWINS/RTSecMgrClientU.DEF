@@ -18,4 +18,6 @@ EXPORTS
 	?UnSetPolicy@CRTSecManager@@QAEHH@Z @ 17 NONAME ; int CRTSecManager::UnSetPolicy(int)
 	?UpdatePolicy@CRTSecManager@@QAEHHABVRFile@@@Z @ 18 NONAME ; int CRTSecManager::UpdatePolicy(int, class RFile const &)
 	?UpdatePolicy@CRTSecManager@@QAEHHABVTDesC8@@@Z @ 19 NONAME ; int CRTSecManager::UpdatePolicy(int, class TDesC8 const &)
+	?IsAllowed@CRTSecMgrScriptSession@@QAEHABV?$RArray@W4TCapability@@@@VTUid@@V?$TBuf@$0BAA@@@@Z @ 20 NONAME ; int CRTSecMgrScriptSession::IsAllowed(class RArray<enum TCapability> const &, class TUid, class TBuf<256>)
+	?SetApplicationNameL@CRTSecMgrScriptSession@@QAEXABVTDesC16@@@Z @ 21 NONAME ; void CRTSecMgrScriptSession::SetApplicationNameL(class TDesC16 const &)
 

@@ -276,6 +276,18 @@ public:
 			TPermGrant aPermDenied);
 	
 	/*
+     * Utility method to update the permanently allowed or denied
+     * permissions for the script object
+     * 
+     * @param aExecID TExecutableID script identifier of script object whose
+     * permanent permissions are modified
+     * @param aPermGrant TPermGrant  permanently allowed permissions
+     * @param aPermDenied TPermGrant permanently denied permissions
+     * 
+     */
+    void UpdatePermGrantL(TExecutableID aExecID, RProviderArray aAllowedProviders,
+            RProviderArray aDeniedProviders);
+	/*
 	 * Utility method to create a backup for the policy file
 	 * 
 	 * @param aPolicyID TPolicyID policy identifier for the file

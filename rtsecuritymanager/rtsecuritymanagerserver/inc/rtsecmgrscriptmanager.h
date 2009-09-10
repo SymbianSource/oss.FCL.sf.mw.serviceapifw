@@ -141,6 +141,18 @@ public:
 	 */
 	void UpdatePermGrantL(TExecutableID aExecID, TPermGrant aPermGrant,
 			TPermGrant aPermDenied);
+	
+	/**
+     * Updates permanently granted or denied permission data
+     * of the script
+     * 
+     * @param aExecID    TExecutableID script identifier
+     * @param aPermGrant TPermGrant permanently allowed permission
+     * @param aPermDenied TPermGrant permanently denied permission
+     * 
+     */
+    void UpdatePermGrantL(TExecutableID aExecID, RProviderArray aAllowedProviders,
+            RProviderArray aDeniedProviders);
 
 	/**
 	 * Gets the script file name

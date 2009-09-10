@@ -24,4 +24,6 @@ EXPORTS
 	_ZN22CRTSecMgrScriptSessionD0Ev @ 23 NONAME
 	_ZN22CRTSecMgrScriptSessionD1Ev @ 24 NONAME
 	_ZN22CRTSecMgrScriptSessionD2Ev @ 25 NONAME
+	_ZN22CRTSecMgrScriptSession19SetApplicationNameLERK7TDesC16 @ 26 NONAME
+	_ZN22CRTSecMgrScriptSession9IsAllowedERK6RArrayI11TCapabilityE4TUid4TBufILi256EE @ 27 NONAME
 

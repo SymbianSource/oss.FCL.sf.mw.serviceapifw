@@ -70,6 +70,14 @@ public:
 	 * 
 	 */
 	void UpdatePermGrantL(const RMessage2& aMessage);
+	
+	/**
+     * Handles update permanent permission service
+     * 
+     * @param aMessage const RMessage2& Input message
+     * 
+     */
+    void UpdatePermGrantProviderL(const RMessage2& aMessage);
 
 	/**
 	 * Gets script identifier of the underlying script object

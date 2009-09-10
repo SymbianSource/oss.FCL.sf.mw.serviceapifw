@@ -400,3 +400,31 @@ void CRTSecMgrSubSession::UpdatePermGrantL(const RMessage2& aMessage)
 		aMessage.Write (EMsgArgZero, pkg);
 		}
 	}
+
+void CRTSecMgrSubSession::UpdatePermGrantProviderL(const RMessage2& aMessage)
+    {
+    HBufC8* desData = HBufC8::NewLC (KMaxMsgLength);
+    TPtr8 readPtr(desData->Des ());
+    aMessage.ReadL (EMsgArgZero, readPtr);
+    CRTPermGrantMessage *msg = CRTPermGrantMessage::NewLC(readPtr);
+    
+    if ( !iSession->IsScriptSessionOpen(msg->ScriptID(),this))
+        {        
+        RProviderArray allowedProviders;
+        RProviderArray deniedProviders;
+        allowedProviders.Reset();
+        deniedProviders.Reset();
+        msg->AllowedProviders(allowedProviders);
+        msg->DeniedProviders(deniedProviders);
+        iSecMgrServer->UpdatePermGrantL (msg->ScriptID(),allowedProviders,deniedProviders);
+        allowedProviders.Close();
+        deniedProviders.Close();
+        }
+    else
+        {
+        TPckgBuf<TInt> pkg((TInt)ErrUpdatePermGrantFailed);
+        aMessage.Write (EMsgArgZero, pkg);
+        }
+    CleanupStack::PopAndDestroy(msg);
+    CleanupStack::PopAndDestroy(desData);
+    }

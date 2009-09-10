@@ -30,6 +30,8 @@ typedef TInt TPolicyID;
 typedef TInt TExecutableID;
 typedef TUint32 TPermGrant;
 typedef RArray<TCapability> RCapabilityArray;
+typedef TUid TProviderUid;
+typedef RArray<TProviderUid> RProviderArray;
 
 typedef TUint32 TCapabilityBitSet;
 
@@ -86,7 +88,8 @@ enum TUserPromptOption
 enum TSecMgrPromptUIOption
 	{
 	RTPROMPTUI_DEFAULT = 0,
-	RTPROMPTUI_ADVANCED
+	RTPROMPTUI_ADVANCED,
+	RTPROMPTUI_PROVIDER
 	};
 
 //error code used btn server and client

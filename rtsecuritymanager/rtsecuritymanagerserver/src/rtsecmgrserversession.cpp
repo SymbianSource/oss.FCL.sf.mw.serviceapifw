@@ -126,6 +126,9 @@ void CRTSecMgrSession::DispatchMessageL(const RMessage2& aMessage)
 		case EGetScriptFile:
 			subSession->GetScriptFile (aMessage);
 			return;
+		case EUpdatePermanentGrantProvider:
+		    subSession->UpdatePermGrantProviderL (aMessage);
+		    return;
 		default:
 			PanicClient (aMessage, EBadRequest);
 			return;

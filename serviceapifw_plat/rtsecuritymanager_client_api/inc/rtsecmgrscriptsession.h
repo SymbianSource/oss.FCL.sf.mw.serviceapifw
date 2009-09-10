@@ -154,6 +154,7 @@ private:
 
 //typdef to model list of prompt data structure
 typedef RPointerArray<CPromptData> RPromptDataList;
+typedef RArray<TInt> RResourceArray; 
 
 /* 
  * Prompt callback handler class. 
@@ -194,6 +195,22 @@ public:
 	 */
 	virtual TSecMgrPromptUIOption PromptOption() const =0;
 	};
+
+struct TPermanentInfo
+    {
+    TPermGrant iAllowedBits;            //permanent allowed caps
+    TPermGrant iDeniedBits;             //permanent denied caps
+    RProviderArray iAllowedProviders;   //permanent allowed providers
+    RProviderArray iDeniedProviders;    //permanent denied providers
+    };
+
+struct TSessionInfo
+    {
+    TCapabilityBitSet AllowedCaps; //caps allowed for this session (caps allowed for this session & perm allowed)
+    TCapabilityBitSet DeniedCaps; //caps denied for this sesion (caps denied for this session & perm denied)
+    RProviderArray AllowedProviders;//providers allowed for this session
+    RProviderArray DeniedProviders;//providers denied for this session
+    };
 
 /**
  *
@@ -341,15 +358,42 @@ public:
 	IMPORT_C TInt IsAllowed(const RCapabilityArray& aCapabilitiesToCheck,RCapabilityArray& aUnMatchedCapabilities);
 
 	/**
-	 * Definition of default prompt handler.
-	 * 
-	 * @param aPromptDataList RPromptDataList list of prompt data used by
-	 * prompt callback handler to show to the user
-	 * 
-	 * @return KErrNone if prompting successful; In case of failure, one of
-	 * system wide error codes
-	 *
-	 */
+     * Performs access permission check
+     * 
+     * This overloaded method evaluates access permission by comparing the expected capabilities
+     * to perform service invocation with the capabilities of the script. The
+     * capabilities of the script is computed as sum of :
+     *  
+     *  -   default allowed capabilities as specified in security access policy
+     *  -   user-granted capabilities, allowed by user while prompting
+     *
+     * The capabilities allowed by the user could be of various durations, like
+     * session-based, blanket/permanent and the one valid for the current invocation only 
+     * (one-shot)
+     * 
+     * This overloaded version returns the list of capabilities that do not match after
+     * access permission check. This can be used by the client to display to the user the
+     * list of unmatched capabilities
+     * 
+     * @param aCapabilitiesToCheck RCapabilityArray list of capabilities to be checked against
+     * script's capbilities
+     * @param aProviderUid TProviderUid The provider that is being loaded
+     * @param aResourceFilePath TFileName resource file containing the string to prompt.
+     * 
+     * @return EAccessOk if the access permission check is successful; Else, EAccessNOk
+     */
+	IMPORT_C TInt IsAllowed(const RCapabilityArray& aCapabilitiesToCheck, TProviderUid aProviderUid, TFileName aResourceFileName);
+	
+	/**
+     * Definition of default prompt handler.
+     * 
+     * @param aPromptDataList RPromptDataList list of prompt data used by
+     * prompt callback handler to show to the user
+     * 
+     * @return KErrNone if prompting successful; In case of failure, one of
+     * system wide error codes
+     *
+     */
 	TInt Prompt(RPromptDataList& aPromptDataList , TExecutableID aExecID = KAnonymousScript);
     
     /**
@@ -425,6 +469,16 @@ public:
 		{
 		return iUIPromptOption;
 		}
+	
+	/**
+	 * Sets the application name to the value passed by the runtime.
+	 * The name is displayed as part of the prompt for provider based prompting.
+	 * If name is not set then the default name is used.
+	 * 
+	 * @param aName TDesC& name of the application.
+	 */
+	IMPORT_C void SetApplicationNameL(const TDesC& aName);
+	    
 
 private:
 	/*
@@ -504,8 +558,22 @@ private:
 	 * 
 	 */
 	void Close();
-
+	
+	/*
+	 * Function to add the security manager resource file to the CONE environment
+	 */
 	void AddResourceFiles();
+	
+	/*
+	 * Function to add the provider's resource file from which the body of the prompt is populated.
+	 * 
+	 * @param aResourceFileName TFileName The resource file to be added to the CONE environment
+	 */
+	TInt AddProviderResourceFile(TFileName aResourceFileName);
+	
+	/*
+	 * Close all the resource files added to the CONE environment
+	 */
 	void CloseResourceFiles();
 
 private:
@@ -517,9 +585,9 @@ private:
 	 */
 	struct
 		{
-		TCapabilityBitSet AllowedCaps; //caps allowed for this session (caps allowed for this session & perm allowed)
-		TCapabilityBitSet DeniedCaps; //caps denied for this sesion (caps denied for this session & perm denied)
-		}_sessionInfo;
+		TSessionInfo* sessionInfo; //Information about what is allowed for this session (caps/providers allowed for this session & perm allowed)
+		TCapabilityBitSet DeniedCaps; //Information about what is denied for this session (caps/providers denied for this session & perm denied)
+		}_sessionData;
 
 	/*
 	 * anonymous enumerations for selection index
@@ -545,14 +613,14 @@ private:
 	 * permanently allowed capability bits
 	 * 
 	 */
-	TPermGrant iPermBits; //perm allowed caps, persistently stored for this script
+	TPermanentInfo* _permanentInfo; //perm allowed information, persistently stored for this script
 
 	/*
-	 * permanently denied capability bits
+	 * Generic data about the script session
 	 * 
 	 */
-	TPermGrant iDeniedBits; //perm denied caps, persistently stored for this script
-
+	HBufC* iSessionData; 
+	
 	/*
 	 * reference to prompt handler instance
 	 * 
@@ -574,7 +642,7 @@ private:
 	 * security manager resource file offset value
 	 * 
 	 */
-	TInt iResourceOffset;
+	RResourceArray iResourceOffsetArray;
 
 	/*
 	 * Prompt UI option

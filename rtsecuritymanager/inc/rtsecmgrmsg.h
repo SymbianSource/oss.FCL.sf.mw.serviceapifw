@@ -162,5 +162,153 @@ private:
 	HBufC* iHashMarker;
 	};
 
+NONSHARABLE_CLASS(CRTPermGrantMessage) : public CBase
+    {
+    public:
+        /**
+         * Destructor.
+         */
+        IMPORT_C virtual ~CRTPermGrantMessage();
+        
+        /**
+         * Two-phased constructor.
+         * 
+         * Creates an instance of CRTPermGrantMessage.
+         */
+        IMPORT_C static CRTPermGrantMessage* NewL();
+        
+        /**
+         * Two-phased constructor. 
+         * 
+         * Creates an instance of CRTPermGrantMessage
+         * and leaves it on cleanupstack
+         */
+        IMPORT_C static CRTPermGrantMessage* NewLC();
+                
+        /**
+         * Two-phased constructor. 
+         * 
+         * Creates an instance of CRTPermGrantMessage
+         * from the input source
+         * 
+         * @param aBuf input source data
+         * 
+         * @return CRTPermGrantMessage* created instance of CRTPermGrantMessage 
+         * 
+         */
+        IMPORT_C static CRTPermGrantMessage* NewL(const TDesC8& aBuf);
+        
+        /**
+         * Two-phased constructor. 
+         * 
+         * Creates an instance of CRTPermGrantMessage
+         * from the input source and leaves it on cleanup stack
+         * 
+         * @param aBuf input source data
+         * 
+         * @return CRTPermGrantMessage* created instance of CRTPermGrantMessage 
+         * 
+         */
+        IMPORT_C static CRTPermGrantMessage* NewLC(const TDesC8& aBuf);
+        
+        /**
+         * Two-phased constructor. 
+         * 
+         * Creates an instance of CRTPermGrantMessage
+         * 
+         * @param aAllowedProviders RProviderArray Allowed service providers
+         * @param aDeniedProviders RProviderArray Denied service providers
+         * @param aScriptId TExecutableID script identifier
+         * @return CRTPermGrantMessage* created instance of CRTPermGrantMessage 
+         * 
+         */
+        IMPORT_C static CRTPermGrantMessage* NewL(RProviderArray aAllowedProviders, RProviderArray aDeniedProviders,TExecutableID aScriptId);
+        
+        /**
+         * Two-phased constructor. 
+         * 
+         * Creates an instance of CRTPermGrantMessage and leaves it on the cleanup stack
+         * 
+         * @param aAllowedProviders RProviderArray Allowed service providers
+         * @param aDeniedProviders RProviderArray Denied service providers
+         * @param aScriptId TExecutableID script identifier
+         * @return CRTPermGrantMessage* created instance of CRTPermGrantMessage 
+         * 
+         */
+        IMPORT_C static CRTPermGrantMessage* NewLC(RProviderArray aAllowedProviders, RProviderArray aDeniedProviders,TExecutableID aScriptId);
+        
+        /**
+         * Get Method.
+         * 
+         * Gets the list of Allowed providers
+         * 
+         * @param aAllowedProviders RProviderArray In/Out parameter which will contain the list of allowed providers
+         */
+        IMPORT_C void AllowedProviders(RProviderArray& aAllowedProviders);
+        
+        /**
+         * Get Method.
+         * 
+         * Gets the list of Allowed providers
+         * 
+         * @param aDeniedProviders RProviderArray In/Out parameter which will contain the list of denied providers
+         */
+        IMPORT_C void DeniedProviders(RProviderArray& aDeniedProviders);
+        
+        /**
+         * Get Method
+         * 
+         * Gets the script Identifier.
+         * 
+         * @return TExecutableID the script identifier
+         */
+        IMPORT_C TExecutableID ScriptID();
+        
+        /**
+         * Set Method.
+         * 
+         * Sets the list of Allowed providers
+         * 
+         * @param aAllowedProviders RProviderArray input parameter which contains the list of allowed providers
+         */
+        IMPORT_C void setAllowedProviders(RProviderArray aAllowedProviders);
+        
+        /**
+         * Set Method.
+         * 
+         * Sets the list of Denied providers
+         * 
+         * @param aDeniedProviders RProviderArray input parameter which contains the list of denied providers
+         */
+        IMPORT_C void setDeniedProviders(RProviderArray aDeniedProviders);
+        
+        /**
+         * Set Method
+         * 
+         * Sets the script Identifier.
+         * 
+         * @param TExecutableID the script identifier
+         */
+        IMPORT_C void setScriptID(TExecutableID aScriptId);
+        
+        /*
+         * Creates an HBufC8 representation of CRTPermGrantMessage
+         * 
+         * @return HBufC8* buffer representation of CRTPermGrantMessage
+         */
+        IMPORT_C HBufC8* PackMessageL();
+        
+    private:
+        CRTPermGrantMessage();
+        CRTPermGrantMessage(RProviderArray aAllowedProviders,RProviderArray aDeniedProviders,TExecutableID aScriptId);
+        void ConstructL(const TDesC8& aBuf);
+        void InternalizeL(RReadStream& aSink);
+        void ExternalizeL(RWriteStream& aSource);
+    private:
+        RProviderArray iAllowedProviders;
+        RProviderArray iDeniedProviders;
+        TExecutableID iScriptId;
+    };
+
 #endif // RTSECMGRMSG_H
 

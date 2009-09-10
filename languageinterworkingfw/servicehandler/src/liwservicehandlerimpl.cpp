@@ -2471,6 +2471,32 @@ void CLiwServiceHandlerImpl::GetCapabilitiesL(RArray<TCapability>& secMgrCapList
 	}
 }
 
+void CLiwServiceHandlerImpl::GetProviderResourceFile(TDes& aFilePath,CLiwGenericParamList* pMetaData)
+{	
+	_LIT8(KResourceFile,"res");
+
+	TInt pos = 0;
+	const TLiwGenericParam* pCapData = pMetaData->FindFirst(pos,KResourceFile);
+
+	if(pCapData)
+	{
+		const CLiwList* pCapList = pCapData->Value().AsList();
+		if(pCapList)
+		{
+			for(TInt idx(0);idx!=pCapList->Count();++idx)
+			{
+				TLiwVariant capVar;
+				capVar.PushL();
+				pCapList->AtL(idx, capVar);
+				aFilePath = capVar.AsDes();
+				CleanupStack::Pop(&capVar);
+				capVar.Reset();
+			}
+		}
+		
+	}
+}
+
 void CLiwServiceHandlerImpl::ComputeIntfVersion(CLiwServiceData* pProvMetaData,TReal& aIntfVersion)
 {
 	CLiwGenericParamList* pMetaDataList = pProvMetaData->GetMetaData();
@@ -2822,12 +2848,21 @@ TInt CLiwServiceHandlerImpl::ResolveProvidersL(CLiwBinding* aBinding,
     	if(pChosenImpl)
 		{
 		 	RArray<TCapability> provCaps;
-	    	GetCapabilitiesL(provCaps,pServiceData->GetMetaData());
-	    		
+		 	TFileName provResourcePath;
+	    	GetCapabilitiesL(provCaps,pServiceData->GetMetaData());	    	
+	    	  		
 	    	TInt isAllowed(KErrNone);
 	    	
 	    	if(aScriptSession)
-	    		isAllowed = aScriptSession->IsAllowed(provCaps);
+	    	    {
+	    	    if(aScriptSession->PromptOption() == RTPROMPTUI_PROVIDER)
+	    	    	{
+	    	    		GetProviderResourceFile(provResourcePath, pServiceData->GetMetaData());
+	    	        isAllowed = aScriptSession->IsAllowed(provCaps, pChosenImpl->ImplementationUid(), provResourcePath);	
+	    	      }
+                else
+                    isAllowed = aScriptSession->IsAllowed(provCaps);
+	    	    }
 	    		
 	    	if(KErrNone==isAllowed)
 		    {

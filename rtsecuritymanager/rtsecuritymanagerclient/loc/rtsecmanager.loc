@@ -386,5 +386,13 @@
 //
 #define qtn_rtsecmgr_info_about_group  "Application needs following permissions from the group"
 
+//d: Runtime security manager prompt text
+//l: popup_info_list_pane_t1
+//w:
+//r:5.0
+//
+#define qtn_rtsecmgr_prompt_query_application "Application"
+
+
 
 // End of File

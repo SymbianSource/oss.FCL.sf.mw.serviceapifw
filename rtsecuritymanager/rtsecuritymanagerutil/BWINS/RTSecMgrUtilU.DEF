@@ -57,4 +57,22 @@ EXPORTS
 	?SetPermissionSet@CScript@@QAEXABVCPermissionSet@@@Z @ 56 NONAME ; void CScript::SetPermissionSet(class CPermissionSet const &)
 	?UnconditionalCaps@CPermissionSet@@QBEKXZ @ 57 NONAME ; unsigned long CPermissionSet::UnconditionalCaps(void) const
 	?UnconditionalCaps@CPermissionSet@@QBEXAAV?$RArray@W4TCapability@@@@@Z @ 58 NONAME ; void CPermissionSet::UnconditionalCaps(class RArray<enum TCapability> &) const
+	?PermDenied@CScript@@QAEXAAV?$RArray@VTUid@@@@@Z @ 59 NONAME ; void CScript::PermDenied(class RArray<class TUid> &)
+	?PermGranted@CScript@@QAEXAAV?$RArray@VTUid@@@@@Z @ 60 NONAME ; void CScript::PermGranted(class RArray<class TUid> &)
+	?SetPermDenied@CScript@@QAEXV?$RArray@VTUid@@@@@Z @ 61 NONAME ; void CScript::SetPermDenied(class RArray<class TUid>)
+	?SetPermGranted@CScript@@QAEXV?$RArray@VTUid@@@@@Z @ 62 NONAME ; void CScript::SetPermGranted(class RArray<class TUid>)
+	??1CRTPermGrantMessage@@UAE@XZ @ 63 NONAME ; CRTPermGrantMessage::~CRTPermGrantMessage(void)
+	?AllowedProviders@CRTPermGrantMessage@@QAEXAAV?$RArray@VTUid@@@@@Z @ 64 NONAME ; void CRTPermGrantMessage::AllowedProviders(class RArray<class TUid> &)
+	?DeniedProviders@CRTPermGrantMessage@@QAEXAAV?$RArray@VTUid@@@@@Z @ 65 NONAME ; void CRTPermGrantMessage::DeniedProviders(class RArray<class TUid> &)
+	?NewL@CRTPermGrantMessage@@SAPAV1@ABVTDesC8@@@Z @ 66 NONAME ; class CRTPermGrantMessage * CRTPermGrantMessage::NewL(class TDesC8 const &)
+	?NewL@CRTPermGrantMessage@@SAPAV1@V?$RArray@VTUid@@@@0H@Z @ 67 NONAME ; class CRTPermGrantMessage * CRTPermGrantMessage::NewL(class RArray<class TUid>, class RArray<class TUid>, int)
+	?NewL@CRTPermGrantMessage@@SAPAV1@XZ @ 68 NONAME ; class CRTPermGrantMessage * CRTPermGrantMessage::NewL(void)
+	?NewLC@CRTPermGrantMessage@@SAPAV1@ABVTDesC8@@@Z @ 69 NONAME ; class CRTPermGrantMessage * CRTPermGrantMessage::NewLC(class TDesC8 const &)
+	?NewLC@CRTPermGrantMessage@@SAPAV1@V?$RArray@VTUid@@@@0H@Z @ 70 NONAME ; class CRTPermGrantMessage * CRTPermGrantMessage::NewLC(class RArray<class TUid>, class RArray<class TUid>, int)
+	?NewLC@CRTPermGrantMessage@@SAPAV1@XZ @ 71 NONAME ; class CRTPermGrantMessage * CRTPermGrantMessage::NewLC(void)
+	?PackMessageL@CRTPermGrantMessage@@QAEPAVHBufC8@@XZ @ 72 NONAME ; class HBufC8 * CRTPermGrantMessage::PackMessageL(void)
+	?ScriptID@CRTPermGrantMessage@@QAEHXZ @ 73 NONAME ; int CRTPermGrantMessage::ScriptID(void)
+	?setAllowedProviders@CRTPermGrantMessage@@QAEXV?$RArray@VTUid@@@@@Z @ 74 NONAME ; void CRTPermGrantMessage::setAllowedProviders(class RArray<class TUid>)
+	?setDeniedProviders@CRTPermGrantMessage@@QAEXV?$RArray@VTUid@@@@@Z @ 75 NONAME ; void CRTPermGrantMessage::setDeniedProviders(class RArray<class TUid>)
+	?setScriptID@CRTPermGrantMessage@@QAEXH@Z @ 76 NONAME ; void CRTPermGrantMessage::setScriptID(int)
 

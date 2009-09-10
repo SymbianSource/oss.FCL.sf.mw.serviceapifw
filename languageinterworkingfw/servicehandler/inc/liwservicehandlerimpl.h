@@ -107,6 +107,10 @@ NONSHARABLE_CLASS(CLiwServiceHandlerImpl) :
         */
         void QueryImplementationL(CLiwCriteriaItem* aItem, RCriteriaArray& aProviderList);
 		void GetCapabilitiesL(RArray<TCapability>& secMgrCapList,CLiwGenericParamList* pMetaData);
+        /**
+        * @see CLiwServiceHandler::GetProviderResourceFile() 
+        */
+        void GetProviderResourceFile(TDes& aFilePath, CLiwGenericParamList* pMetaData);
         
         /**
         * @see CLiwServiceHandler::GetInterest()

@@ -332,6 +332,19 @@ public:
 	 */
 	TInt UpdatePermGrant(TExecutableID aScriptID, TPermGrant aPermGrant,
 			TPermGrant aPermDenied) const;
+	
+	/**
+     * Updates the blanket permission data of the script
+     * 
+     * @param aScriptID TExecutableID Identifier of the scipt
+     * @param aAllowedProviders RProviderArray   Blanket allowed providers
+     * @param aDeniedProviders RProviderArray  Blanket denied providers
+     * 
+     * @return KErrNone if update of blanket permission successul; Otherwise one of
+     *                   system wide error codes
+     * 
+     */
+	TInt UpdatePermGrant(TExecutableID aScriptID, RProviderArray aAllowedProviders, RProviderArray aDeniedProviders) const;
 
 	
 private:

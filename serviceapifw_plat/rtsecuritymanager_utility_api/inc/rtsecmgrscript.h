@@ -129,6 +129,22 @@ public:
 	IMPORT_C TPermGrant PermDenied() const;
 
 	/*
+     * Gets the permanently granted providers
+     * 
+     * @param aAllowedProviders RProviderArray IN/OUT param which will co
+     * 
+     */
+    IMPORT_C void PermGranted(RProviderArray& aAllowedProviders) ;
+    
+    /*
+     * Gets the permanently denied permissions
+     * 
+     * @return TPermGrant permanently denied permission
+     * 
+     */
+    IMPORT_C void PermDenied(RProviderArray& aDeniedProviders) ;
+    
+	/*
 	 * Sets the permissionset of the script
 	 * 
 	 * @param aPermissionSet CPermissionSet source permissionset to be set
@@ -165,6 +181,22 @@ public:
 	 */
 	IMPORT_C void SetPermDenied(TPermGrant aPermDenied);
 	
+	/*
+     * Sets permanently granted permission
+     * 
+     * @param aPermGrant TPermGrant permanently granted permission to be set
+     * 
+     */
+    IMPORT_C void SetPermGranted(RProviderArray aPermGrantProviders);
+    
+    /*
+     * Sets permanently denied permission
+     * 
+     * @param aPermDenied TPermGrant permanently denied permission to be set
+     * 
+     */
+    IMPORT_C void SetPermDenied(RProviderArray aPermDeniedProviders);
+    
 	/*
 	 * Sets hash value of the script
 	 * 
@@ -237,8 +269,17 @@ private:
 	//permanently denied permission
 	TPermGrant iPermDenied; //separate bit-patterns for permanently allowed & denied
 	
+	//permanently allowed providers
+	RProviderArray iAllowedProviders;
+	
+	//permanently denied providers
+	RProviderArray iDeniedProviders;
+	
 	//hash value of the script
 	HBufC* iHashMark;	
+	
+	// Reserved for future additions
+	TAny* iReserved;
 	};
 
 /*

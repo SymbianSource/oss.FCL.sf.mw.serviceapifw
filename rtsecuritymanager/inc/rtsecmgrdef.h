@@ -53,7 +53,8 @@ enum TRTSecServRqst
 	ECheckPermission,
 	EUpdatePermanentGrant,
 	EGetScriptFile,
-	ESecMgrSrvReqEnd
+	ESecMgrSrvReqEnd,
+	EUpdatePermanentGrantProvider
 	};
 
 const TInt KSecurityServerUid2Int(0x1020507E);

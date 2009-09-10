@@ -637,6 +637,20 @@ TInt RSecMgrSubSession::UpdatePermGrant(TExecutableID aScriptID,
 	}
 
 //
+//Updates the blanket permission data of the script
+//
+TInt RSecMgrSubSession::UpdatePermGrant(TExecutableID aScriptID,
+        RProviderArray aAllowedProviders, RProviderArray aDeniedProviders) const
+    {
+    CRTPermGrantMessage* msg = CRTPermGrantMessage::NewL(aAllowedProviders , aDeniedProviders , aScriptID);
+    HBufC8* buffer = msg->PackMessageL();
+    TIpcArgs args(buffer);
+    TInt ret = SendReceive (EUpdatePermanentGrantProvider, args);
+    delete buffer;
+    delete msg;
+    return ret;
+    }
+//
 // Close the subsession.
 //
 void RSecMgrSubSession::Close()

@@ -40,12 +40,15 @@
 #include "rtsecmgrclient.h"
 #include "rtsecmgrdef.h"
 
+#define FIRST_RESOURCE_ID(x) ((x)+2);
+
 //security manager resource file literal
 _LIT(KSecMgrResourceFile, "RTSecManager.RSC");
 
 //constant for descriptor array granularity
 const TInt KDescArrayInit = 6;
-const TInt KMaxBuf=256;
+const TInt KMaxBuf=255;
+
 
 //typedef of selection index array
 typedef RArray<TInt> RSelIdxArray;
@@ -159,12 +162,10 @@ private:
 // ---------------------------------------------------------------------------
 //
 CRTSecMgrScriptSession::CRTSecMgrScriptSession(MSecMgrPromptHandler* aPromptHdlr) :
-	iPermBits(KDefaultNullBit), iDeniedBits(KDefaultNullBit),
-			iPromptHdlr(aPromptHdlr), iUIPromptOption(RTPROMPTUI_DEFAULT), isCustomPrompt(EFalse)
+				iPromptHdlr(aPromptHdlr), iUIPromptOption(RTPROMPTUI_DEFAULT), isCustomPrompt(EFalse)
 	{
-	_sessionInfo.AllowedCaps = KDefaultNullBit;
-	_sessionInfo.DeniedCaps = KDefaultNullBit;
-}
+	iSessionData = NULL;
+	}
 
 // ---------------------------------------------------------------------------
 // Defintiion of second-phase constructor
@@ -210,15 +211,26 @@ void CRTSecMgrScriptSession::ConstructL()
 	    iPromptHdlr = this; //default prompt handler	
 	    isCustomPrompt = ETrue ;
 	    }
-				
-
+	_permanentInfo = new(ELeave) TPermanentInfo;			
+	_sessionData.sessionInfo = new(ELeave) TSessionInfo;
+	_sessionData.sessionInfo->AllowedCaps = KDefaultNullBit;
+    _sessionData.sessionInfo->DeniedCaps = KDefaultNullBit;
+    _sessionData.sessionInfo->AllowedProviders.Reset();
+    _sessionData.sessionInfo->DeniedProviders.Reset();
+    _permanentInfo->iAllowedBits = KDefaultNullBit;
+    _permanentInfo->iDeniedBits = KDefaultNullBit;
+    _permanentInfo->iAllowedProviders.Reset();
+    _permanentInfo->iDeniedProviders.Reset();
+    iResourceOffsetArray.Reset();
 	}
 
+//---------------------------------------------------------------------------------
+//Method to add the resource files to CONE environment.
+//---------------------------------------------------------------------------------
 void CRTSecMgrScriptSession::AddResourceFiles()
     {
         if(iCoeEnv)
-        {
-            
+        {            
         CDesCArray* diskList = new (ELeave) CDesCArrayFlat(KDescArrayInit);
         CleanupStack::PushL (diskList);
 
@@ -236,21 +248,69 @@ void CRTSecMgrScriptSession::AddResourceFiles()
             BaflUtils::NearestLanguageFile (iCoeEnv->FsSession (), resFile);
             if ( BaflUtils::FileExists (iCoeEnv->FsSession (), resFile))
                 {
-                TRAPD (err, iResourceOffset = iCoeEnv->AddResourceFileL (resFile));
+                TRAPD (err, iResourceOffsetArray.Append(iCoeEnv->AddResourceFileL (resFile)));
                 User::LeaveIfError (err);
                 break;
                 }
             }
-
         CleanupStack::PopAndDestroy (diskList);
         }        
     }
 
+//---------------------------------------------------------------------------------------
+//Method to add provider resource files into the CONE environment
+//Returns the first resource identifier which has the prompt string
+//---------------------------------------------------------------------------------------
+TInt CRTSecMgrScriptSession::AddProviderResourceFile(TFileName aResourceFileName)
+    {
+    RResourceFile resFile;
+    TInt resID(KErrNone);
+    if(iCoeEnv)
+        {            
+        CDesCArray* diskList = new (ELeave) CDesCArrayFlat(KDescArrayInit);
+        CleanupStack::PushL (diskList);
+                    
+        BaflUtils::GetDiskListL (iCoeEnv->FsSession (), *diskList);
+        for (TInt idx(0); idx<diskList->Count ();++idx)
+            {
+            TInt intDrive;
+            TChar ch = ((*diskList)[idx])[0];
+            RFs::CharToDrive (ch, intDrive);
+            TDriveUnit curDrive(intDrive);
+
+            TFileName resFileName(curDrive.Name ());
+            resFileName.Append (KDC_APP_RESOURCE_DIR);
+            resFileName.Append (aResourceFileName);
+            BaflUtils::NearestLanguageFile (iCoeEnv->FsSession (), resFileName);
+            if ( BaflUtils::FileExists (iCoeEnv->FsSession (), resFileName))
+                {
+                TRAPD(err,resFile.OpenL(iCoeEnv->FsSession(),resFileName));
+                if(err == KErrNone)
+                    {
+                    resFile.ConfirmSignatureL(0);
+                    resID = FIRST_RESOURCE_ID(resFile.Offset());
+                    resFile.Close();
+                    iResourceOffsetArray.Append(iCoeEnv->AddResourceFileL (resFileName));
+                    break;
+                    }
+                }
+            }
+        CleanupStack::PopAndDestroy(diskList);
+        }
+    return resID;
+    }
+
+//--------------------------------------------------------------------------------------------
+//Close the resource files previously added 
+//--------------------------------------------------------------------------------------------
 void CRTSecMgrScriptSession::CloseResourceFiles()
     {
-    if ( iResourceOffset && iCoeEnv)
-            iCoeEnv->DeleteResourceFile (iResourceOffset);
-	iResourceOffset = 0;
+    if (iCoeEnv)
+        {
+        for(TInt i(0); i < iResourceOffsetArray.Count(); i++)
+            iCoeEnv->DeleteResourceFile (iResourceOffsetArray[i]);
+        iResourceOffsetArray.Reset();
+        }
     }
 // ---------------------------------------------------------------------------
 // Destructor
@@ -259,6 +319,17 @@ void CRTSecMgrScriptSession::CloseResourceFiles()
 //
 EXPORT_C CRTSecMgrScriptSession::~CRTSecMgrScriptSession()
 	{
+	_permanentInfo->iAllowedProviders.Close();
+	_permanentInfo->iDeniedProviders.Close();
+	_sessionData.sessionInfo->AllowedProviders.Close();
+	_sessionData.sessionInfo->DeniedProviders.Close();
+	delete _permanentInfo;
+	delete _sessionData.sessionInfo;
+	if(iSessionData)
+	    {
+	    delete iSessionData;
+	    iSessionData = NULL;
+	    }
 	Close ();
 	}
 
@@ -279,10 +350,12 @@ TInt CRTSecMgrScriptSession::Open(const RSessionBase& aParentSession,
 
 	TInt ret((*iSubSessionProxy)->Open (aParentSession, *iScript, aPolicyID));
 	if ( KErrNone==ret)
-		{
-		iPermBits = iScript->PermGranted ();
-		iDeniedBits = iScript->PermDenied ();
-		}
+	    {
+        _permanentInfo->iAllowedBits = iScript->PermGranted ();
+        _permanentInfo->iDeniedBits = iScript->PermDenied ();
+        iScript->PermGranted(_permanentInfo->iAllowedProviders);
+        iScript->PermDenied(_permanentInfo->iDeniedProviders);		    
+	    }
 
 	return ret;
 	}
@@ -304,8 +377,10 @@ TInt CRTSecMgrScriptSession::Open(const RSessionBase& aParentSession,
 	TInt ret((*iSubSessionProxy)->Open (aParentSession, *iScript, aPolicyID, aHashValue));
 	if ( KErrNone==ret)
 		{
-		iPermBits = iScript->PermGranted ();
-		iDeniedBits = iScript->PermDenied ();
+        _permanentInfo->iAllowedBits = iScript->PermGranted ();
+        _permanentInfo->iDeniedBits = iScript->PermDenied ();
+        iScript->PermGranted(_permanentInfo->iAllowedProviders);
+        iScript->PermDenied(_permanentInfo->iDeniedProviders);            
 		}
 
 	return ret;
@@ -328,9 +403,11 @@ TInt CRTSecMgrScriptSession::Open(const RSessionBase& aParentSession,
 	TInt ret((*iSubSessionProxy)->Open (aParentSession, *iScript, aPolicyID, aTrustInfo));
 
 	if ( KErrNone==ret)
-		{
-		iPermBits = iScript->PermGranted ();
-		iDeniedBits = iScript->PermDenied ();
+		{		
+        _permanentInfo->iAllowedBits = iScript->PermGranted ();
+        _permanentInfo->iDeniedBits = iScript->PermDenied ();    
+        iScript->PermGranted(_permanentInfo->iAllowedProviders);
+        iScript->PermDenied(_permanentInfo->iDeniedProviders);            
 		}
 
 	return ret;
@@ -391,13 +468,13 @@ TInt CRTSecMgrScriptSession::IsAllowed(
 	capToCheck &= ~(iScript->PermissionSet().UnconditionalCaps());
 	
 	/* Check if a;ready denied. No point in going forward */
-	if(capToCheck & _sessionInfo.DeniedCaps || capToCheck & iDeniedBits)
+	if(capToCheck & _sessionData.sessionInfo->DeniedCaps || capToCheck & _permanentInfo->iDeniedBits)
 	        return EAccessNok;
 	
 	TCapabilityBitSet allowedCaps(KDefaultNullBit);
-	allowedCaps |= _sessionInfo.AllowedCaps; //for session allowed
-	allowedCaps &= ~iDeniedBits;
-	allowedCaps |= iPermBits; //for permanently allowed
+	allowedCaps |= _sessionData.sessionInfo->AllowedCaps; //for session allowed
+	allowedCaps &= ~_permanentInfo->iDeniedBits;
+	allowedCaps |= _permanentInfo->iAllowedBits; //for permanently allowed
 	
 	//In case if all the capabilities required by the service provider
 	//are allowed without prompting
@@ -428,13 +505,13 @@ TInt CRTSecMgrScriptSession::IsAllowed(
 		capToCheck &= tempCapToCheck;
 		if ( capToCheck )
 			{
-			if ( capToCheck & iDeniedBits) //check if permanently disabled
+			if ( capToCheck & _permanentInfo->iDeniedBits) //check if permanently disabled
 				{
 				allowedCaps &= ~tempCapToCheck; //just in case...
-				_sessionInfo.DeniedCaps &= ~tempCapToCheck; //just in case...
+				_sessionData.sessionInfo->DeniedCaps &= ~tempCapToCheck; //just in case...
 				}
 			else
-				if ( capToCheck & _sessionInfo.DeniedCaps) //not necessary to do this check...
+				if ( capToCheck & _sessionData.sessionInfo->DeniedCaps) //not necessary to do this check...
 					{
 					allowedCaps &= ~tempCapToCheck; //just in case...	
 					}
@@ -449,10 +526,10 @@ TInt CRTSecMgrScriptSession::IsAllowed(
 						if ( (perm->Condition() & RTUserPrompt_OneShot) ||(perm->Condition() & RTUserPrompt_Session) ||((perm->Condition() & RTUserPrompt_Permanent) &&
 								(iScript->ScriptID()!=KAnonymousScript)))
 							{
-							if ( !(_sessionInfo.AllowedCaps & capToCheck))
+							if ( !(_sessionData.sessionInfo->AllowedCaps & capToCheck))
 								{
 								//check if it's denied for this session
-								if ( !(_sessionInfo.DeniedCaps & capToCheck))
+								if ( !(_sessionData.sessionInfo->DeniedCaps & capToCheck))
 									{
 									CPromptData* promptData = CPromptData::NewL();//should write NewL Function
 									promptData->SetPermissions(*perm);
@@ -502,12 +579,12 @@ TInt CRTSecMgrScriptSession::IsAllowed(
 		if ( (iScript->ScriptID()!=KAnonymousScript)&&(isPermGrantModified))
 			UpdatePermGrant ();//commit perm grant change 
 
-		finalCaps |= iPermBits ;
+		finalCaps |= _permanentInfo->iAllowedBits ;
 		
 		if((finalCaps & NetworkServices_CAP) && isCustomPrompt)
 		    PromptCostL() ;
 		
-		finalCaps |= _sessionInfo.AllowedCaps ;
+		finalCaps |= _sessionData.sessionInfo->AllowedCaps ;
 		
 	
 		if ( KErrNone == ((finalCaps & original_capToCheck) ^ original_capToCheck))
@@ -1099,46 +1176,46 @@ void CRTSecMgrScriptSession::HandleGrantChosen(CPromptData* aPromptData,
 	
 	if ( RTUserPrompt_OneShot==optionChosen)
 		{
-		_sessionInfo.AllowedCaps &= ~aCapBitSet;
+		_sessionData.sessionInfo->AllowedCaps &= ~aCapBitSet;
 		aAllowedCaps = aCapBitSet;
 		}
 	else
 		if ( RTUserPrompt_Denied==optionChosen) //one-shot denied
 			{
 			aAllowedCaps &= ~aCapBitSet;
-			_sessionInfo.AllowedCaps &= ~aCapBitSet; //disable in session pattern too...	
+			_sessionData.sessionInfo->AllowedCaps &= ~aCapBitSet; //disable in session pattern too...	
 			}
 		else
 			if ( RTUserPrompt_Session==optionChosen)
 				{
-				_sessionInfo.AllowedCaps |= aCapBitSet;//Enable in _sessionInfo.Allowed & allowed
+				_sessionData.sessionInfo->AllowedCaps |= aCapBitSet;//Enable in _sessionData.Allowed & allowed
 				aAllowedCaps = aCapBitSet;
 				}
 			else
 				if ( RTUserPrompt_SessionDenied==optionChosen) //session denied
 					{
 					aAllowedCaps &= ~aCapBitSet;
-					_sessionInfo.AllowedCaps &= ~aCapBitSet; //disable in session pattern too...
-					_sessionInfo.DeniedCaps |= aCapBitSet; //enable denied in session bit
+					_sessionData.sessionInfo->AllowedCaps &= ~aCapBitSet; //disable in session pattern too...
+					_sessionData.sessionInfo->DeniedCaps |= aCapBitSet; //enable denied in session bit
 					}
 				else
 					if ( RTUserPrompt_Permanent==optionChosen)
 						{
 						aIsPermGrantModified = ETrue; //to commit the change to persistent store
-						_sessionInfo.AllowedCaps |= aCapBitSet;
+						_sessionData.sessionInfo->AllowedCaps |= aCapBitSet;
 						aAllowedCaps = aCapBitSet;
-						iPermBits |= aCapBitSet;
-						iDeniedBits &= ~aCapBitSet; //just in case....
+						_permanentInfo->iAllowedBits |= aCapBitSet;
+						_permanentInfo->iDeniedBits &= ~aCapBitSet; //just in case....
 						}
 					else
 						if ( RTUserPrompt_PermDenied==optionChosen) //permanent denied
 							{
 							aIsPermGrantModified = ETrue;
 							aAllowedCaps &= ~aCapBitSet;
-							_sessionInfo.AllowedCaps &= ~aCapBitSet; //disable in session pattern too...
-							_sessionInfo.DeniedCaps |= aCapBitSet; //enable denied in session bit 
-							iPermBits &= ~aCapBitSet; //disable in perm bits
-							iDeniedBits |= aCapBitSet; //enable in perm denied bit pattern
+							_sessionData.sessionInfo->AllowedCaps &= ~aCapBitSet; //disable in session pattern too...
+							_sessionData.sessionInfo->DeniedCaps |= aCapBitSet; //enable denied in session bit 
+							_permanentInfo->iAllowedBits &= ~aCapBitSet; //disable in perm bits
+							_permanentInfo->iDeniedBits |= aCapBitSet; //enable in perm denied bit pattern
 							//Commit the change to persistent store...
 							}
 	}
@@ -1149,8 +1226,10 @@ void CRTSecMgrScriptSession::HandleGrantChosen(CPromptData* aPromptData,
 //
 void CRTSecMgrScriptSession::UpdatePermGrant()
 	{
-	(*iSubSessionProxy)->UpdatePermGrant (iScript->ScriptID (), iPermBits,
-			iDeniedBits);
+	if(iUIPromptOption == RTPROMPTUI_PROVIDER)
+	    (*iSubSessionProxy)->UpdatePermGrant (iScript->ScriptID (),_permanentInfo->iAllowedProviders, _permanentInfo->iDeniedProviders);
+	else
+	    (*iSubSessionProxy)->UpdatePermGrant (iScript->ScriptID (), _permanentInfo->iAllowedBits,_permanentInfo->iDeniedBits);
 	}
 
 //
@@ -1188,8 +1267,9 @@ void CRTSecMgrScriptSession::AddCapability(TCapabilityBitSet& aInOutCapBitSet,
  */
 void CRTSecMgrScriptSession::Close()
 	{
-	if ( iResourceOffset && iCoeEnv)
-		iCoeEnv->DeleteResourceFile (iResourceOffset);
+	if (iCoeEnv)
+	    for(TInt i(0); i < iResourceOffsetArray.Count(); i++)
+	        iCoeEnv->DeleteResourceFile (iResourceOffsetArray[i]);
 
 	if ( iScript)
 		{
@@ -1213,3 +1293,195 @@ TInt CRTSecMgrScriptSession::LinkCallback(TAny * aCallbackParam)
 	(cb->iRTSecMgrScriptSession)->MoreInfoL(*(cb->iPromptData));
 	return KErrNone;
 	}
+
+//---------------------------------------------------------------------------------------------------
+//Overloaded IsAllowed method for provider based prompting
+//---------------------------------------------------------------------------------------------------
+EXPORT_C TInt CRTSecMgrScriptSession::IsAllowed(const RCapabilityArray& aCapabilitiesToCheck,
+                                                TProviderUid aProviderUid, 
+                                                TFileName aResourceFileName)
+{
+    if ( aCapabilitiesToCheck.Count () <= 0)
+        {
+        return EAccessOk; //if no capabilities are required, safely return
+        }
+    if ( aCapabilitiesToCheck.Find(ECapabilityTCB) != KErrNotFound)
+        return EAccessNok;
+        
+    if((aProviderUid.iUid <= KErrNone) || ((aResourceFileName.Compare(KNullDesC))==KErrNone))
+        return ErrInvalidParameters;    
+    
+    TInt stackResCnt(0);
+    TCapabilityBitSet capToCheck(KDefaultNullBit);
+    for (TInt i(0); i!=aCapabilitiesToCheck.Count (); ++i)
+        AddCapability (capToCheck, aCapabilitiesToCheck[i]);
+
+    capToCheck &= ~(iScript->PermissionSet().UnconditionalCaps());
+    if (!capToCheck)
+        return EAccessOk;
+    if((_sessionData.sessionInfo->DeniedProviders.Find(aProviderUid) != KErrNotFound) || (_permanentInfo->iDeniedProviders.Find(aProviderUid) != KErrNotFound))
+        return EAccessNok;
+    
+    if((_sessionData.sessionInfo->AllowedProviders.Find(aProviderUid) != KErrNotFound)|| (_permanentInfo->iAllowedProviders.Find(aProviderUid) != KErrNotFound))
+        return EAccessOk;
+        
+    TBool isPermGrantModified(EFalse);
+    RPermissions perms = iScript->PermissionSet().Permissions();
+    TCapabilityBitSet tempCapToCheck(KDefaultNullBit);
+    
+    //All the capabilities allowed for the domain
+    for (TInt permIdx(0); permIdx!=perms.Count();++permIdx)
+        {
+        tempCapToCheck |= perms[permIdx]->PermissionData();
+        }
+    
+    //If the capabilities is allowed with prompting
+    if((tempCapToCheck & capToCheck) == capToCheck)
+        {
+        /*TODO: Changes based on the decision on what needs 
+        to be done of the default capability is different 
+        for capabilities required by the provider. Presently taking least duration*/
+        TUserPromptOption defaultOption(RTUserPrompt_OneShot);
+        for(TInt i=0; i < perms.Count(); i++)
+            {
+            if((perms[i]->Default() == RTUserPrompt_OneShot) && (perms[i]->PermissionData() & capToCheck))
+                {
+                defaultOption = RTUserPrompt_OneShot;
+                break;
+                }
+            else if((perms[i]->Default() == RTUserPrompt_Session) && (perms[i]->PermissionData() & capToCheck))
+                {
+                defaultOption = RTUserPrompt_Session;
+                }
+            else if((perms[i]->Default() == RTUserPrompt_Permanent) && (perms[i]->PermissionData() & capToCheck) && (defaultOption != RTUserPrompt_Session))
+                {
+                defaultOption = RTUserPrompt_Permanent;
+                }
+            }
+         //= perms[0]->Default();
+        //TUserPromptOption defaultOption(RTUserPrompt_Session);
+        AddResourceFiles();
+        TInt resID(KErrNone);
+        resID = AddProviderResourceFile(aResourceFileName);
+        
+        if(resID <= KErrNone)
+            return KErrNotFound;
+        
+        HBufC* messageBody = NULL;
+        
+        //Get the application name. If not set use the default name
+        if(iSessionData != NULL )
+            {
+            TPtr appNamePtr = iSessionData->Des();
+            messageBody = StringLoader::LoadL( resID, appNamePtr, iCoeEnv );
+            CleanupStack::PushL(messageBody);
+            ++stackResCnt;
+            }
+        else
+            {
+            HBufC* defaultName = iCoeEnv->AllocReadResourceLC(R_DEFAULT_APPLICATION_NAME);
+            TPtr defaultNamePtr = defaultName->Des();
+            messageBody = StringLoader::LoadL( resID, defaultNamePtr, iCoeEnv );
+            CleanupStack::PopAndDestroy(defaultName);
+            CleanupStack::PushL(messageBody);
+            ++stackResCnt;            
+            }
+        
+        CAknMessageQueryDialog* queryDialog = new(ELeave) CAknMessageQueryDialog();
+        CleanupStack::PushL (queryDialog);
+        ++stackResCnt;
+    
+        queryDialog->PrepareLC (R_ADVPROMPT_MESSAGE_QUERY);
+        
+        queryDialog->SetMessageTextL(messageBody->Des());
+        
+        HBufC* headerText(NULL);
+        CAknPopupHeadingPane* heading = queryDialog->QueryHeading ();
+        if ( heading)
+            {
+            heading->SetLayout (CAknPopupHeadingPane::EMessageQueryHeadingPane);
+            headerText = iCoeEnv->AllocReadResourceLC (R_RTSECMGR_PROMPT_QUERY_HEADER);
+            heading->SetTextL (headerText->Des ());
+            ++stackResCnt;
+            }
+        
+        TInt ret(EAccessNok);
+        TBool costPromptRequired(EFalse);
+        CleanupStack::Pop (stackResCnt);
+        TInt queryOk = queryDialog->RunLD ();
+        if ( queryOk == EAknSoftkeyYes)
+            {
+            
+            if ( defaultOption & RTUserPrompt_OneShot)
+                {
+                ret = EAccessOk;
+                }
+            else if ( defaultOption& RTUserPrompt_Session)
+                {
+                _sessionData.sessionInfo->AllowedProviders.Append(aProviderUid); //session allow 
+                ret = EAccessOk;
+                }
+            else if ( defaultOption& RTUserPrompt_Permanent)
+                {
+                _sessionData.sessionInfo->AllowedProviders.Append(aProviderUid); //session allow
+                _permanentInfo->iAllowedProviders.Append(aProviderUid);          //permanent allow
+                isPermGrantModified = ETrue;                                     //Flag for server update 
+                ret = EAccessOk;
+                }
+            else
+                {
+                ret = EAccessNok;
+                }
+            }
+        else
+            {
+            if ( defaultOption & RTUserPrompt_OneShot)
+                {
+                ret = EAccessNok;
+                }
+            else if ( defaultOption& RTUserPrompt_Session)
+                {
+                _sessionData.sessionInfo->DeniedProviders.Append(aProviderUid);  //session deny
+                ret = EAccessNok;
+                }
+            else if ( defaultOption& RTUserPrompt_Permanent)
+                {
+                _sessionData.sessionInfo->DeniedProviders.Append(aProviderUid);  //session deny                         
+                _permanentInfo->iDeniedProviders.Append(aProviderUid);           //permanent deny
+                isPermGrantModified = ETrue;                                     //Flag for server update 
+                ret = EAccessNok;
+                }            
+            }
+        CloseResourceFiles();
+        
+        /* If its a pre-registered script and perm grant is modified update server */
+        if(isPermGrantModified && (iScript->ScriptID() != KAnonymousScript))
+            UpdatePermGrant();          
+        
+        if(messageBody)
+            delete messageBody;
+        
+        if(headerText)
+            delete headerText;
+        
+        return ret;
+        }
+    return EAccessNok;
+    }
+
+//---------------------------------------------------------------------------------------------
+//Method to set the application name. 
+//Called by the runtimes to set the name of the widget/flash content
+//---------------------------------------------------------------------------------------------
+EXPORT_C void CRTSecMgrScriptSession::SetApplicationNameL(const TDesC& aName)
+        {
+        if(iSessionData)
+            {
+            delete iSessionData;
+            iSessionData = NULL;
+            }
+        /* Limit on the length of the application name */
+        /*if(aName.Length() > KMaxAppName)
+            User::Leave(KErrOverflow);*/
+        iSessionData = aName.AllocL();
+        }

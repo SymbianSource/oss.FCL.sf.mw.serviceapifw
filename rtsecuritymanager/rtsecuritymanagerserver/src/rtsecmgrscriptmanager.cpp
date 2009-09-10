@@ -204,3 +204,18 @@ void CScriptManager::UpdatePermGrantL(TExecutableID aExecID,TPermGrant aPermGran
 		}	
 	}
 }
+
+void CScriptManager::UpdatePermGrantL(TExecutableID aExecID,RProviderArray aAllowedProviders,
+                                        RProviderArray aDeniedProviders)
+{   
+    for(TInt i(0);i!=iScripts.Count();++i)
+    {
+    if(iScripts[i]->ScriptID()==aExecID)
+        {
+            iScripts[i]->SetPermGranted(aAllowedProviders);
+            iScripts[i]->SetPermDenied(aDeniedProviders);
+            iSecMgrDB->WriteScriptInfoL(aExecID,*iScripts[i]);          
+            return;
+        }   
+    }
+}

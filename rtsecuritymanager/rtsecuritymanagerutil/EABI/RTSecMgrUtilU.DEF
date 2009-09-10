@@ -65,4 +65,24 @@ EXPORTS
 	_ZNK7CScript13PermissionSetEv @ 64 NONAME
 	_ZNK7CScript8PolicyIDEv @ 65 NONAME
 	_ZNK7CScript8ScriptIDEv @ 66 NONAME
+	_ZN19CRTPermGrantMessage11setScriptIDEi @ 67 NONAME
+	_ZN19CRTPermGrantMessage12PackMessageLEv @ 68 NONAME
+	_ZN19CRTPermGrantMessage15DeniedProvidersER6RArrayI4TUidE @ 69 NONAME
+	_ZN19CRTPermGrantMessage16AllowedProvidersER6RArrayI4TUidE @ 70 NONAME
+	_ZN19CRTPermGrantMessage18setDeniedProvidersE6RArrayI4TUidE @ 71 NONAME
+	_ZN19CRTPermGrantMessage19setAllowedProvidersE6RArrayI4TUidE @ 72 NONAME
+	_ZN19CRTPermGrantMessage4NewLE6RArrayI4TUidES2_i @ 73 NONAME
+	_ZN19CRTPermGrantMessage4NewLERK6TDesC8 @ 74 NONAME
+	_ZN19CRTPermGrantMessage4NewLEv @ 75 NONAME
+	_ZN19CRTPermGrantMessage5NewLCE6RArrayI4TUidES2_i @ 76 NONAME
+	_ZN19CRTPermGrantMessage5NewLCERK6TDesC8 @ 77 NONAME
+	_ZN19CRTPermGrantMessage5NewLCEv @ 78 NONAME
+	_ZN19CRTPermGrantMessage8ScriptIDEv @ 79 NONAME
+	_ZN19CRTPermGrantMessageD0Ev @ 80 NONAME
+	_ZN19CRTPermGrantMessageD1Ev @ 81 NONAME
+	_ZN19CRTPermGrantMessageD2Ev @ 82 NONAME
+	_ZN7CScript10PermDeniedER6RArrayI4TUidE @ 83 NONAME
+	_ZN7CScript11PermGrantedER6RArrayI4TUidE @ 84 NONAME
+	_ZN7CScript13SetPermDeniedE6RArrayI4TUidE @ 85 NONAME
+	_ZN7CScript14SetPermGrantedE6RArrayI4TUidE @ 86 NONAME
 

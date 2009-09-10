@@ -110,6 +110,8 @@ RESOURCE TBUF r_rtsecmgr_link_more_info { buf=qtn_rtsecmgr_link_more_info; }
 RESOURCE TBUF r_rtsecmgr_item_more_info { buf=qtn_rtsecmgr_item_more_info; }
 RESOURCE TBUF r_rtsecmgr_more_info_query { buf=qtn_rtsecmgr_info_about_group; }
 RESOURCE TBUF r_rtsecmgr_cost_info { buf=qtn_rtsecmgr_prompt_cost_network; }
+RESOURCE TBUF r_default_application_name {buf=qtn_rtsecmgr_prompt_query_application;}
+
 RESOURCE LISTBOX r_setting_app_listbox
     {
     flags = EEikListBoxMultipleSelection;
