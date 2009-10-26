@@ -95,7 +95,7 @@ void CLiwEcomMonitor::ListImplemetationsL(RImplInfoPtrArray& aResult,
     TUid resolvUid = { KLiwResolverImplUidValue };  
     
     TBuf8<KMaxDataParamSize> dataType;     
-    if(aItem->ServiceCmdStr().Length() + aItem->ContentType().Length() > KMaxCmdLength)
+    if((aItem->ServiceCmdStr().Length() + aItem->ContentType().Length()) > KMaxCmdLength)
         {        
         User::Leave( KLiwUnknown );
         }
