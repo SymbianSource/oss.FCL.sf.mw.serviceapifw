@@ -38,8 +38,8 @@ PRJ_MMPFILES
 
 #ifndef TOOLS
 
-ServiceHandler.mmp
-LiwResolver.mmp
+servicehandler.mmp
+liwresolver.mmp
 
 #endif
 

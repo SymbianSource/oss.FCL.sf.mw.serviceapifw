@@ -35,20 +35,20 @@ paged
 CAPABILITY      CAP_GENERAL_DLL
 
 SOURCEPATH      ../src
-SOURCE          LiwCommon.cpp
-SOURCE          LiwServiceHandler.cpp
-SOURCE          LiwServiceHandlerImpl.cpp
-SOURCE          LiwMenu.cpp
-SOURCE          LiwBinding.cpp
-SOURCE          LiwMenuBinding.cpp
-SOURCE          LiwServiceIfBase.cpp
-SOURCE          LiwServiceIfMenu.cpp
-SOURCE          LiwGenericParam.cpp
-SOURCE          LiwVariant.cpp
-SOURCE          LiwEcomMonitor.cpp
-SOURCE          LiwTlsData.cpp
-SOURCE          LiwXmlHandler.cpp
-SOURCE          LiwServiceData.cpp
+SOURCE          liwcommon.cpp
+SOURCE          liwservicehandler.cpp
+SOURCE          liwservicehandlerimpl.cpp
+SOURCE          liwmenu.cpp
+SOURCE          liwbinding.cpp
+SOURCE          liwmenubinding.cpp
+SOURCE          liwserviceifbase.cpp
+SOURCE          liwserviceifmenu.cpp
+SOURCE          liwgenericparam.cpp
+SOURCE          liwvariant.cpp
+SOURCE          liwecommonitor.cpp
+SOURCE          liwtlsdata.cpp
+SOURCE          liwxmlhandler.cpp
+SOURCE          liwservicedata.cpp
 
 USERINCLUDE     . 
 USERINCLUDE     ../inc
@@ -59,7 +59,7 @@ MW_LAYER_SYSTEMINCLUDE
 
 #include <data_caging_paths.hrh>
 
-START RESOURCE ../data/liwServiceHandler.rss
+START RESOURCE ../data/liwservicehandler.rss
 	HEADER    
 	TARGETPATH   RESOURCE_FILES_DIR  
 END

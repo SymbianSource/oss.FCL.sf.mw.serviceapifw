@@ -31,16 +31,16 @@
 #include <StifTestModule.h>
 #include <TestclassAssert.h>
 #include <liwservicehandler.h>
-#include <RTSecMgrScriptSession.h>
+#include <rtsecmgrscriptsession.h>
 
 #include <eikapp.h>
 #include <eikdoc.h>
 #include <e32std.h>
 #include <coeccntx.h>
-#include <aknviewappui.h>
+#include <aknViewAppUi.h>
 #include <akntabgrp.h>
 #include <aknnavide.h>
-#include <akntabobserver.h>
+#include <AknTabObserver.h>
 
 #include  "liw_async_testcase.h"
 

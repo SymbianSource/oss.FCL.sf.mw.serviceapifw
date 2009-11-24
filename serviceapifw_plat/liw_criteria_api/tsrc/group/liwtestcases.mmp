@@ -58,7 +58,7 @@ MW_LAYER_SYSTEMINCLUDE
 
 SOURCEPATH      ../src
 SOURCE          liwtestcases.cpp
-SOURCE          liwtestcasesBlocks.cpp 
+SOURCE          liwtestcasesblocks.cpp 
 SOURCE 					liwtestcasesasync.cpp
 
 //RESOURCE        resource_file

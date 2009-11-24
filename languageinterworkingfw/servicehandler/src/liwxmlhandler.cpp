@@ -23,13 +23,13 @@
 
 
 
-#include "LiwXmlHandler.h"
+#include "liwxmlhandler.h"
 #include <f32file.h>
 #include "data_caging_path_literals.hrh"
 #include <e32capability.h>
 
-#include "LiwServiceData.h"
-#include <LiwVariant.h>
+#include "liwservicedata.h"
+#include <liwvariant.h>
 
 _LIT8(KMetaDataName, "meta");
 

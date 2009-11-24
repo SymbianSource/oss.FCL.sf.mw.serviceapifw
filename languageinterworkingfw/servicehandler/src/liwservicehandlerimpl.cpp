@@ -35,10 +35,10 @@
 #include "liwtlsdata.h"
 #include "data_caging_path_literals.hrh"
 
-#include "LiwXmlHandler.h"
-#include "LiwServiceData.h"
+#include "liwxmlhandler.h"
+#include "liwservicedata.h"
 
-#include <RTSecMgrScriptSession.h>
+#include <rtsecmgrscriptsession.h>
 
 // CONSTANTS
 // Max number of empty menu resource slots.

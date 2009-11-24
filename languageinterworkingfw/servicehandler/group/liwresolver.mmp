@@ -36,7 +36,7 @@ VERSION 10.1
 paged
 
 SOURCEPATH      ../src
-SOURCE          LiwResolver.cpp
+SOURCE          liwresolver.cpp
 
 USERINCLUDE     ../inc
 SYSTEMINCLUDE   /epoc32/include/ecom
@@ -44,7 +44,7 @@ SYSTEMINCLUDE   /epoc32/include/ecom
 // layer specific include directories
 MW_LAYER_SYSTEMINCLUDE
 
-START RESOURCE  ../data/2000B5D4.RSS
+START RESOURCE  ../data/2000B5D4.rss
 TARGET liwResolver.rsc                                                              
 END
 

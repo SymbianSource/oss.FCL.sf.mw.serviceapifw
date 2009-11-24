@@ -28,7 +28,7 @@
 
 #include <SenXmlReader.h>
 #include <MSenContentHandlerClient.h>
-#include <xml/ContentHandler.h>
+#include <xml/contenthandler.h>
 #include <e32capability.h>
 
 // CONSTANTS

@@ -57,7 +57,7 @@ DEFFILE         ui_tsecuritymanager.def
 
 SOURCEPATH      ../src
 SOURCE          ui_tsecuritymanager.cpp
-SOURCE          ui_tsecuritymanagerBlocks.cpp
+SOURCE          ui_tsecuritymanagerblocks.cpp
 
 //RESOURCE        resource_file
 //RESOURCE        resource_file2

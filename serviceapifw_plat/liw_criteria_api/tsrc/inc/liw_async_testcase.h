@@ -26,7 +26,7 @@
 // INCLUDES
 #include <liwcommon.h>
 #include <e32base.h>
-#include <LiwGenericParam.h>
+#include <liwgenericparam.h>
 
 // FORWARD DECLARATIONS
 class CLiwServiceHandler;

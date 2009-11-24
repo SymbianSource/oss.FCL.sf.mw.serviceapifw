@@ -21,7 +21,7 @@
 
 #include <rtsecmgrutility.h>
 #include <rtsecmgrscript.h>
-#include <s32mem.H>
+#include <s32mem.h>
 
 const TReal DEFAULT_VERSION(1.0);
 const TReal VERSION_TWO(2.0);

@@ -27,16 +27,16 @@
 // [INCLUDE FILES] - do not remove
 #include <e32svr.h>
 #include <StifParser.h>
-#include <Stiftestinterface.h>
+#include <StifTestInterface.h>
 #include "ui_tsecuritymanager.h"
 #include<coemain.h>
 
 #include <e32base.h>
 #include <e32std.h>
 #include <f32file.h>
-#include <RTSecManager.h>
-#include <RTSecMgrUtility.h>
-#include <RTSecMgrScriptSession.h>
+#include <rtsecmanager.h>
+#include <rtsecmgrutility.h>
+#include <rtsecmgrscriptsession.h>
 #include <rtsecmgrcommondef.h>
 //#include <rtsecmgrclient.h>
 #include<w32std.h>

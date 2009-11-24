@@ -25,20 +25,20 @@
 // [INCLUDE FILES] - do not remove
 #include <e32svr.h>
 #include <StifParser.h>
-#include <Stiftestinterface.h>
+#include <StifTestInterface.h>
 #include "liwtestcases.h"
 
-#include  <aknviewappui.h>
+#include  <aknViewAppUi.h>
 #include  <liwservicehandler.h>
 //#include  "liwTC1.h"
 //#include  "liwtestapp.hrh"
 //#include  <liwtestapp.rsg>
 #include  <s32mem.h> // for read write stream
 
-#include <RTSecManager.h>
-#include <RTSecMgrUtility.h>
-#include <RTSecMgrScriptSession.h>
-#include <RTSecMgrCommonDef.h>
+#include <rtsecmanager.h>
+#include <rtsecmgrutility.h>
+#include <rtsecmgrscriptsession.h>
+#include <rtsecmgrcommondef.h>
 #include "liwtestapplit.h"
 
 #include  "liw_async_testcase.h"

@@ -24,7 +24,7 @@
 
 #include <fbs.h>
 
-#include "LiwVariant.h"
+#include "liwvariant.h"
 class CFbsBitmap;
 
 class CLiwBitmapBuffer : public CLiwBuffer

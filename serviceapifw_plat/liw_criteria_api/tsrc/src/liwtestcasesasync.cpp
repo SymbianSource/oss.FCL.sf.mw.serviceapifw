@@ -22,7 +22,7 @@
 
 
 // INCLUDE FILES
-#include  <aknviewappui.h>
+#include  <aknViewAppUi.h>
 #include  <liwservicehandler.h>
 #include  "liw_async_testcase.h"
 //#include  "liwtestapp.hrh"

@@ -29,10 +29,10 @@ DEFAULT
 
 PRJ_EXPORTS
 
-../inc/LiwGenericParam.h     		MW_LAYER_PLATFORM_EXPORT_PATH(LiwGenericParam.h)
-../inc/LiwVariantType.hrh     	MW_LAYER_PLATFORM_EXPORT_PATH(LiwVariantType.hrh)
-../inc/LiwVariant.h     				MW_LAYER_PLATFORM_EXPORT_PATH(LiwVariant.h)
-../inc/LiwGenericParam.inl     	MW_LAYER_PLATFORM_EXPORT_PATH(LiwGenericParam.inl)
-../inc/LiwGenericParam.hrh     	MW_LAYER_PLATFORM_EXPORT_PATH(LiwGenericParam.hrh)
-../inc/LiwVariant.inl    				MW_LAYER_PLATFORM_EXPORT_PATH(LiwVariant.inl)
-../inc/LiwBufferExtension.h			MW_LAYER_PLATFORM_EXPORT_PATH(LiwBufferExtension.h)
+../inc/liwgenericparam.h     		MW_LAYER_PLATFORM_EXPORT_PATH(liwgenericparam.h)
+../inc/liwvarianttype.hrh     	MW_LAYER_PLATFORM_EXPORT_PATH(liwvarianttype.hrh)
+../inc/liwvariant.h     				MW_LAYER_PLATFORM_EXPORT_PATH(liwvariant.h)
+../inc/liwgenericparam.inl     	MW_LAYER_PLATFORM_EXPORT_PATH(liwgenericparam.inl)
+../inc/liwgenericparam.hrh     	MW_LAYER_PLATFORM_EXPORT_PATH(liwgenericparam.hrh)
+../inc/liwvariant.inl    				MW_LAYER_PLATFORM_EXPORT_PATH(liwvariant.inl)
+../inc/liwbufferextension.h			MW_LAYER_PLATFORM_EXPORT_PATH(liwbufferextension.h)

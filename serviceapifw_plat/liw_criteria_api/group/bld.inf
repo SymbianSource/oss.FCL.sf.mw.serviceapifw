@@ -29,6 +29,6 @@ DEFAULT
 
 PRJ_EXPORTS
 
-../inc/LiwCommon.hrh     MW_LAYER_PLATFORM_EXPORT_PATH(LiwCommon.hrh)
-../inc/LiwCommon.rh     MW_LAYER_PLATFORM_EXPORT_PATH(LiwCommon.rh)
-../inc/LiwCommon.h     MW_LAYER_PLATFORM_EXPORT_PATH(LiwCommon.h)
+../inc/liwcommon.hrh     MW_LAYER_PLATFORM_EXPORT_PATH(liwcommon.hrh)
+../inc/liwcommon.rh     MW_LAYER_PLATFORM_EXPORT_PATH(liwcommon.rh)
+../inc/liwcommon.h     MW_LAYER_PLATFORM_EXPORT_PATH(liwcommon.h)

@@ -24,7 +24,7 @@
 
 
 // INCLUDE FILES
-#include <Stiftestinterface.h>
+#include <StifTestInterface.h>
 #include "ui_tsecuritymanager.h"
 #include <SettingServerClient.h>
 

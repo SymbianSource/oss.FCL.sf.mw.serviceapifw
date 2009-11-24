@@ -24,7 +24,7 @@
 #include "liwcommon.h"
 #include "liwuids.hrh"
 #include "liwserviceifbase.h"
-#include <LiwServiceHandler.h>
+#include <liwservicehandler.h>
 
 // CONSTANTS
 _LIT8(KContentTag, "<CONTENT>");

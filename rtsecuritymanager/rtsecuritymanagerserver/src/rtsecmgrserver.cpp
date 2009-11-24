@@ -24,8 +24,8 @@
 
 #include "rtsecmgrserver.h"
 #include "rtsecmgrsession.h"
-#include "rtsecmgrsubSession.h"
-#include "rtsecmgrcommonDef.h"
+#include "rtsecmgrsubsession.h"
+#include "rtsecmgrcommondef.h"
 #include "rtsecmgrstore.h"
 #include "rtsecmgrpolicymanager.h"
 #include "rtsecmgrscriptmanager.h"

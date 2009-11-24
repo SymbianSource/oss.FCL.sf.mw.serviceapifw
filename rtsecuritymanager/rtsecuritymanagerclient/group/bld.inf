@@ -25,4 +25,4 @@ PRJ_EXPORTS
 ../loc/rtsecmanager.loc        MW_LAYER_LOC_EXPORT_PATH(rtsecmanager.loc)
 
 PRJ_MMPFILES
-RTSecMgrClient.mmp
+rtsecmgrclient.mmp

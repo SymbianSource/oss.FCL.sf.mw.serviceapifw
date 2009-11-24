@@ -21,7 +21,7 @@
 
 
 
-#include "LiwCommon.hrh"
+#include "liwcommon.hrh"
 #ifndef LIW_VARIANT_TYPE_HRH
 #define LIW_VARIANT_TYPE_HRH
 

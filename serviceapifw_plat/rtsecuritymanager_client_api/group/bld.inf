@@ -29,5 +29,5 @@ DEFAULT
 PRJ_EXPORTS
 ../inc/rtsecmanager.h     MW_LAYER_PLATFORM_EXPORT_PATH(rtsecmanager.h)
 ../inc/rtsecmgrscriptsession.h     MW_LAYER_PLATFORM_EXPORT_PATH(rtsecmgrscriptsession.h)
-../inc/rtsecmgrtrustinfo.h     MW_LAYER_PLATFORM_EXPORT_PATH(rtsecmgrtrustinfo.h)
+../inc/rtsecmgrtrustInfo.h     MW_LAYER_PLATFORM_EXPORT_PATH(rtsecmgrtrustinfo.h)
 

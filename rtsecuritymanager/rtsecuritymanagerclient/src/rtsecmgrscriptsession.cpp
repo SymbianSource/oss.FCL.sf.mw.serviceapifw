@@ -21,7 +21,7 @@
 
 
 #include <aknlistquerydialog.h>
-#include <aknquerydialog.h>
+#include <AknQueryDialog.h>
 #include <aknmessagequerycontrol.h>
 #include <aknmessagequerydialog.h> 
 #include <badesca.h>
@@ -32,7 +32,7 @@
 #include <eikfrlb.h>
 #include <eikfrlbd.h>
 #include <pathinfo.h> 
-#include <stringloader.h>
+#include <StringLoader.h>
 
 #include <rtsecmanager.h>
 #include <rtsecmgrscriptsession.h>

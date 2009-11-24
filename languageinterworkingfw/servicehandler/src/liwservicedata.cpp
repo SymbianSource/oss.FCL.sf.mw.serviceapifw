@@ -23,13 +23,13 @@
 
 
 
-#include "LiwServiceData.h"
-#include <LiwVariant.h>
-#include <LiwGenericParam.h>
+#include "liwservicedata.h"
+#include <liwvariant.h>
+#include <liwgenericparam.h>
 
-#include <escapeUtils.h>
+#include <escapeutils.h>
 
-#include <BADESCA.H> 
+#include <badesca.h> 
 
 /**
 * Creates and returns an instance of \c CLiwServiceData

@@ -34,7 +34,7 @@
 #include <e32base.h>
 #include <e32std.h>
 #include <f32file.h>
-#include <RTSecMgrScriptSession.h>
+#include <rtsecmgrscriptsession.h>
 #include <rtsecmgrcommondef.h>
 
 // Forward reference

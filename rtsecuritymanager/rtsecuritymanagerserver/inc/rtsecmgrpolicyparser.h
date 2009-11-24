@@ -24,9 +24,9 @@
 #define C_RTSECMGRPOLICYPARSER_H
 
 #include <e32base.h>
-#include <GMXMLParser.h>
-#include <GMXMLNode.h>
-#include <EscapeUtils.h>
+#include <gmxmlparser.h>
+#include <gmxmlnode.h>
+#include <escapeutils.h>
 #include "rtsecmgrdata.h"
 #include "rtsecmgrcommondef.h"
 

@@ -29,4 +29,4 @@ DEFAULT
 
 PRJ_EXPORTS
 
-../inc/LiwMenu.h     MW_LAYER_PLATFORM_EXPORT_PATH(LiwMenu.h)
+../inc/liwmenu.h     MW_LAYER_PLATFORM_EXPORT_PATH(liwmenu.h)

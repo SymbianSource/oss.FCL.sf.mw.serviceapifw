@@ -23,7 +23,7 @@
 
 
 // INCLUDE FILES
-#include <Stiftestinterface.h>
+#include <StifTestInterface.h>
 #include "liwtestcases.h"
 #include <SettingServerClient.h>
 

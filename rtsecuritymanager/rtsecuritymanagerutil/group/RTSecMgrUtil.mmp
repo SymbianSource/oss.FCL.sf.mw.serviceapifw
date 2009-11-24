@@ -51,11 +51,11 @@ LIBRARY					estor.lib
 LIBRARY					flogger.lib
 
 #if defined(ARMCC)
-deffile ../EABI/ 
+deffile ../eabi/ 
 #elif defined(WINSCW)
-deffile ../BWINS/ 
+deffile ../bwins/ 
 #elif defined(WINS)
-deffile ../BWINS/ 
+deffile ../bwins/ 
 #else
 deffile ../bmarm/ 
 #endif

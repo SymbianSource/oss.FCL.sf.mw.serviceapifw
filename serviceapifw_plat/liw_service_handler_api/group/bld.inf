@@ -29,4 +29,4 @@ DEFAULT
 
 PRJ_EXPORTS
 
-../inc/LiwServiceHandler.h     MW_LAYER_PLATFORM_EXPORT_PATH(LiwServiceHandler.h)
+../inc/liwservicehandler.h     MW_LAYER_PLATFORM_EXPORT_PATH(liwservicehandler.h)

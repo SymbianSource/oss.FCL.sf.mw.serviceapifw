@@ -40,10 +40,10 @@ USERINCLUDE     ../inc/
 USERINCLUDE     ../../inc/
 
 SOURCEPATH      ../src/
-SOURCE          RTSecMgrClient.cpp
-SOURCE          RTSecManager.cpp
-SOURCE          RTSecMgrScriptSession.cpp
-SOURCE          RTSecMgrTrustInfo.cpp
+SOURCE          rtsecmgrclient.cpp
+SOURCE          rtsecmanager.cpp
+SOURCE          rtsecmgrscriptsession.cpp
+SOURCE          rtsecmgrtrustinfo.cpp
 
 START RESOURCE ../data/rtsecmanager.rss
 		TARGETPATH      APP_RESOURCE_DIR

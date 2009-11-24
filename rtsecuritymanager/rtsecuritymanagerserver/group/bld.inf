@@ -25,4 +25,4 @@ PRJ_EXPORTS
 //../data/backup_registration.xml /epoc32/data/z/private/2000F847/backup_registration.xml
 
 PRJ_MMPFILES
-rtsecmgrserver.mmp
+RTSecMgrServer.mmp
