@@ -34,7 +34,7 @@ VENDORID        VID_DEFAULT
 
 CAPABILITY      CAP_SERVER
 
-VERSION 10.2
+VERSION 10.3
 paged
 
 SOURCEPATH      ../src
@@ -54,7 +54,7 @@ USERINCLUDE     ../../inc/
 
 // This is a SYSTEMINCLUDE macro containing the middleware
 // layer specific include directories
-MW_LAYER_SYSTEMINCLUDE
+APP_LAYER_SYSTEMINCLUDE
 
 //MACRO          RTSECMGR_TRACE
 

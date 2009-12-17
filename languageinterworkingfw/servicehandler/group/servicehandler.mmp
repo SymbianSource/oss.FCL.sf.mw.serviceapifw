@@ -29,7 +29,7 @@ TARGETTYPE      DLL
 UID             0x1000008d KLiwServiceHandlerDLLUidValue
 
 
-VERSION 10.1
+VERSION 10.2
 paged
 
 CAPABILITY      CAP_GENERAL_DLL
