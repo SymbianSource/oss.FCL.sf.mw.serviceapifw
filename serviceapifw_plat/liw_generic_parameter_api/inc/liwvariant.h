@@ -191,7 +191,7 @@ class TLiwVariant
         *
         * @param aValue The source object.
         */
-        IMPORT_C TLiwVariant& TLiwVariant::operator=(const TLiwVariant& aValue);
+        IMPORT_C TLiwVariant& operator=(const TLiwVariant& aValue);
 
         // This class does not need a destructor because memory allocation
         // policy for variant class has been implemented by TLiwGenericParam

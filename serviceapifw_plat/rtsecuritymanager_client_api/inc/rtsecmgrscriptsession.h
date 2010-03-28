@@ -138,7 +138,7 @@ public:
 		}
 private:
 	//private default constructor
-	CPromptData::CPromptData() :
+	CPromptData() :
 		iUserSelection(RTUserPrompt_UnDefined)
 		{
 		}
@@ -419,7 +419,7 @@ public:
 	 * 
 	 * @return a reference to underlying script object
 	 */
-	inline CScript& CRTSecMgrScriptSession::Script()
+	inline CScript& Script()
 		{
 		return *iScript;
 		}
