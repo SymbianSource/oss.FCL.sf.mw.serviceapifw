@@ -1682,7 +1682,7 @@ class CLiwDefaultMap : public CLiwMap
    	*
    	* @return an instance of \c CLiwDefaultMap   
    	*/
-    static CLiwDefaultMap* NewLC(RReadStream& aInputStream);
+    IMPORT_C static CLiwDefaultMap* NewLC(RReadStream& aInputStream);
   
   /**
     * Inserts a key-value pair element to the map collection. If
