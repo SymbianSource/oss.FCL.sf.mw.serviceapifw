@@ -50,7 +50,7 @@ LIBRARY					efsrv.lib
 LIBRARY					estor.lib 
 LIBRARY					flogger.lib
 
-#if defined(ARMCC)
+#if defined(EABI)
 deffile ../eabi/ 
 #elif defined(WINSCW)
 deffile ../bwins/ 
