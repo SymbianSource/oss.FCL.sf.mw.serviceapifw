@@ -101,6 +101,11 @@ EXPORT_C TInt CLiwServiceHandler::AttachL(const RCriteriaArray& aInterest,CRTSec
     return (iImpl->AttachL(aInterest,&aSecMgrScriptSession));
     }
 
+EXPORT_C TInt CLiwServiceHandler::AttachL(const RCriteriaArray& aInterest,CRTSecMgrScriptSession& aSecMgrScriptSession,TInt aWidgetId)
+    {
+    return (iImpl->AttachL(aInterest,&aSecMgrScriptSession,aWidgetId));
+    }
+
 EXPORT_C void CLiwServiceHandler::GetInterest(RCriteriaArray& aInterest)
     {
     iImpl->GetInterest(aInterest);

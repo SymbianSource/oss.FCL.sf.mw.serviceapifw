@@ -224,4 +224,5 @@ EXPORTS
 	_ZN11TLiwVariant3SetEx @ 223 NONAME
 	_ZNK11TLiwVariant3GetERx @ 224 NONAME
 	_ZNK11TLiwVariant8AsTInt64Ev @ 225 NONAME
+	_ZN18CLiwServiceHandler7AttachLERK13RPointerArrayI16CLiwCriteriaItemER22CRTSecMgrScriptSessioni @ 226 NONAME
 
