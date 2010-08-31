@@ -3049,7 +3049,7 @@ TInt Cliwtestcases::LIW_ASYNC_LongServiceCmd()
         
 
         interest.AppendL(criteria);
-        TInt status = 0;
+        TInt status;
         // Attach the MyServiceName provider to the LIW framework.
         TRAPD(status1,status = iServiceHandler->AttachL(interest));
          
@@ -3119,7 +3119,7 @@ TInt Cliwtestcases::LIW_ASYNC_LongInterface()
         criteria->SetServiceClass(TUid::Uid(KLiwClassBase));
 
         interest.AppendL(criteria);
-        TInt status = 0;
+        TInt status ;
         // Attach the MyServiceName provider to the LIW framework.
         TRAPD(status1,status  = iServiceHandler->AttachL(interest));
        
@@ -3183,7 +3183,7 @@ TInt Cliwtestcases::LIW_ASYNC_LongInterface1()
         criteria->SetServiceClass(TUid::Uid(KLiwClassBase));
 
         interest.AppendL(criteria);
-        TInt status = 0;
+        TInt status ;
         // Attach the MyServiceName provider to the LIW framework.
         TRAPD(status1,status = iServiceHandler->AttachL(interest));
        

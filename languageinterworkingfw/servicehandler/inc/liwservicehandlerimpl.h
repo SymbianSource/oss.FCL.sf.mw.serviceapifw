@@ -102,7 +102,6 @@ NONSHARABLE_CLASS(CLiwServiceHandlerImpl) :
         TInt AttachL(const RCriteriaArray& aInterest);
         
         TInt AttachL(const RCriteriaArray& aInterest,CRTSecMgrScriptSession* aSecMgrScriptSession);
-        TInt AttachL(const RCriteriaArray& aInterest,CRTSecMgrScriptSession* aSecMgrScriptSession,TInt aWidgetId);
         /**
         * @see CLiwServiceHandler::QueryImplementationL() 
         */
@@ -411,9 +410,6 @@ NONSHARABLE_CLASS(CLiwServiceHandlerImpl) :
         
         // Resource offset for LiwServiceHandler.rsc.
         TInt iResourceOffset;
-        
-        // Resource offset for LiwServiceHandler.rsc.
-        TInt iWidgetId;
         
         // Owns all the providers currently in memory.
         RPointerArray<CLiwServiceIfBase> iProviders;  

@@ -433,7 +433,7 @@ NONSHARABLE_CLASS(CLiwServiceHandler) : public CBase
         IMPORT_C TInt MenuCmdId(TInt aMenuCmdId) const;
         
         IMPORT_C TInt AttachL(const RCriteriaArray& aInterest,CRTSecMgrScriptSession& aSecMgrScriptSession);
-        IMPORT_C TInt AttachL(const RCriteriaArray& aInterest,CRTSecMgrScriptSession& aSecMgrScriptSession,TInt aWidgetId);        
+                
  	  /**
         * Lists available service implementations
         * 

@@ -267,7 +267,7 @@ TInt Cui_tsecuritymanager::secclient1( CStifItemParser& aItem )
     
     TInt cnt = User::CountAllocCells();
    // __UHEAP_MARK;
-    TInt32 exId = 0;
+    TInt32 exId;
     TPtrC sptr;
     	
     	 aItem.GetNextString(sptr);
@@ -998,7 +998,7 @@ TInt Cui_tsecuritymanager::secclient8( CStifItemParser& aItem )
     TPtrC sptr;
     	
     	 aItem.GetNextString(sptr);
- 	 	CRTSecMgrScriptSession* scriptSession = NULL;
+    	 	 	CRTSecMgrScriptSession* scriptSession;
     	iSession = CRTSecManager::NewL ();
     //		iSession2 = CRTSecManager::NewL ();
 	iTrust = CTrustInfo::NewL ();
@@ -1296,7 +1296,7 @@ TInt Cui_tsecuritymanager::secclient10( CStifItemParser& aItem )
     TPtrC sptr;
     	
     	 aItem.GetNextString(sptr);
-    	 	 	CRTSecMgrScriptSession* scriptSession = NULL;
+    	 	 	CRTSecMgrScriptSession* scriptSession;
     	iSession = CRTSecManager::NewL ();
     //		iSession2 = CRTSecManager::NewL ();
 	iTrust = CTrustInfo::NewL ();
@@ -1453,7 +1453,7 @@ TInt Cui_tsecuritymanager::secclient11( CStifItemParser& aItem )
     
     TInt cnt = User::CountAllocCells();
    // __UHEAP_MARK;
-    TInt32 exId = 0;
+    TInt32 exId;
     TPtrC sptr;
     	
     	 aItem.GetNextString(sptr);

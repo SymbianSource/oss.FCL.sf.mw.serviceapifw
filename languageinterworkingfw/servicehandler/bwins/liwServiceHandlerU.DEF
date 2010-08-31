@@ -180,5 +180,4 @@ EXPORTS
 	?AsTInt64@TLiwVariant@@QBE_JXZ @ 179 NONAME ; long long TLiwVariant::AsTInt64(void) const
 	?Get@TLiwVariant@@QBEHAA_J@Z @ 180 NONAME ; int TLiwVariant::Get(long long &) const
 	?Set@TLiwVariant@@QAEX_J@Z @ 181 NONAME ; void TLiwVariant::Set(long long)
-	?AttachL@CLiwServiceHandler@@QAEHABV?$RPointerArray@VCLiwCriteriaItem@@@@AAVCRTSecMgrScriptSession@@H@Z @ 182 NONAME ; int CLiwServiceHandler::AttachL(class RPointerArray<class CLiwCriteriaItem> const &, class CRTSecMgrScriptSession &, int)
 

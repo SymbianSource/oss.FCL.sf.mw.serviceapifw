@@ -37,7 +37,7 @@
 
 #include "liwxmlhandler.h"
 #include "liwservicedata.h"
-#include <e32property.h>
+
 #include <rtsecmgrscriptsession.h>
 
 // CONSTANTS
@@ -53,10 +53,6 @@ const TInt KIndividualMenuPaneIdRange = 10000;
 
 // The whole range that is reserved to all menu panes. Currently value is 170 000.
 const TInt KMenuPaneCommandRange = (KMaxMenuResources + 1) * KIndividualMenuPaneIdRange; 
-
-const TUid KMyPropertyCat = { 0x10282822 };
-
-enum TMyPropertyKeys { EMyPropertyState = 115,  EMyPropertyFinalState = 116};
 
 _LIT(KLiwResourceFile, "liwServiceHandler.rsc");
 _LIT(KLiwZDrive, "z:");
@@ -429,12 +425,6 @@ void CLiwServiceHandlerImpl::AttachL(TInt aInterestResourceId)
 TInt CLiwServiceHandlerImpl::AttachL(const RCriteriaArray& aInterest)
     {
     	return (this->AttachL(aInterest,NULL));
-    }
-
-TInt CLiwServiceHandlerImpl::AttachL(const RCriteriaArray& aInterest,CRTSecMgrScriptSession* aSecMgrScriptSession,TInt aWidgetId)
-    {
-        iWidgetId = aWidgetId;
-        return (this->AttachL(aInterest,aSecMgrScriptSession));
     }
 
 TInt CLiwServiceHandlerImpl::AttachL(const RCriteriaArray& aInterest ,CRTSecMgrScriptSession* aSecMgrScriptSession)
@@ -2867,17 +2857,11 @@ TInt CLiwServiceHandlerImpl::ResolveProvidersL(CLiwBinding* aBinding,
 	    	    {
 	    	    if(aScriptSession->PromptOption() == RTPROMPTUI_PROVIDER)
 	    	    	{
-	    	    	GetProviderResourceFile(provResourcePath, pServiceData->GetMetaData());
-	    	    	RProperty::Set( KMyPropertyCat, EMyPropertyState , iWidgetId );
-	                isAllowed = aScriptSession->IsAllowed(provCaps, pChosenImpl->ImplementationUid(), provResourcePath);	
-	                RProperty::Set( KMyPropertyCat, EMyPropertyFinalState , iWidgetId );
-	    	    	}
+	    	    		GetProviderResourceFile(provResourcePath, pServiceData->GetMetaData());
+	    	        isAllowed = aScriptSession->IsAllowed(provCaps, pChosenImpl->ImplementationUid(), provResourcePath);	
+	    	      }
                 else
-                    {
-                    RProperty::Set( KMyPropertyCat, EMyPropertyState , iWidgetId );
                     isAllowed = aScriptSession->IsAllowed(provCaps);
-                    RProperty::Set( KMyPropertyCat, EMyPropertyFinalState , iWidgetId );
-                    }
 	    	    }
 	    		
 	    	if(KErrNone==isAllowed)
